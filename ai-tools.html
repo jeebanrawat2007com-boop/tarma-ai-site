@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1 CLICK MULTIPLE AI TOOLS</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Syne:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#060b18;--card:#0d1a2e;--card2:#0f2040;
+  --cyan:#00e5ff;--pink:#ff2d78;--gold:#ffd000;--text:#c8d8f0;
+}
+body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);text-align:center;min-height:100vh;
+  background-image:radial-gradient(ellipse 80% 40% at 50% -10%,rgba(0,229,255,.13) 0%,transparent 70%),
+  radial-gradient(ellipse 60% 30% at 80% 100%,rgba(255,45,120,.08) 0%,transparent 70%);}
+header{padding:36px 20px 10px;font-family:'Orbitron',monospace;font-size:clamp(18px,4vw,32px);font-weight:900;
+  letter-spacing:.1em;background:linear-gradient(90deg,var(--cyan),var(--pink));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 18px rgba(0,229,255,.4));}
+.subtitle{font-size:13px;color:rgba(200,216,240,.4);margin-bottom:18px;letter-spacing:.2em;text-transform:uppercase;}
+.search-wrap{display:flex;justify-content:center;margin:10px auto 18px;}
+#search{width:90%;max-width:440px;padding:12px 20px;border-radius:50px;border:1.5px solid rgba(0,229,255,.35);
+  background:rgba(0,229,255,.06);color:white;font-family:'Syne',sans-serif;font-size:15px;outline:none;transition:.3s;}
+#search:focus{border-color:var(--cyan);background:rgba(0,229,255,.11);}
+#search::placeholder{color:rgba(200,216,240,.35);}
+.menu{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;padding:0 16px 18px;}
+.menu button{padding:7px 18px;border:1.5px solid rgba(0,229,255,.4);background:transparent;color:var(--text);
+  border-radius:50px;cursor:pointer;font-family:'Syne',sans-serif;font-size:13px;letter-spacing:.05em;transition:.25s;}
+.menu button:hover,.menu button.active{background:var(--cyan);color:#060b18;border-color:var(--cyan);box-shadow:0 0 14px rgba(0,229,255,.4);}
+#count{font-size:12px;color:rgba(200,216,240,.35);margin-bottom:12px;letter-spacing:.1em;}
+.container{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:14px;padding:10px 18px 30px;max-width:1400px;margin:0 auto;}
+.card{background:var(--card);border:1px solid rgba(0,229,255,.1);border-radius:14px;padding:18px 12px 14px;
+  display:flex;flex-direction:column;align-items:center;gap:7px;transition:.3s;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0;transition:.3s;}
+.card:hover{border-color:rgba(0,229,255,.35);background:var(--card2);transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,229,255,.1);}
+.card:hover::before{opacity:1;}
+.logo-wrap{width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,.07);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.logo-wrap img{width:40px;height:40px;object-fit:contain;border-radius:8px;}
+.logo-fallback{width:40px;height:40px;border-radius:8px;display:none;align-items:center;justify-content:center;
+  font-family:'Orbitron',monospace;font-size:12px;font-weight:900;color:white;}
+.card h3{font-size:13px;font-weight:600;color:white;line-height:1.3;}
+.tag{font-size:10px;padding:2px 10px;border-radius:50px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;}
+.tag-popular{background:rgba(0,229,255,.12);color:var(--cyan);}
+.tag-image{background:rgba(168,85,247,.15);color:#c084fc;}
+.tag-video{background:rgba(255,45,120,.12);color:#ff6b9d;}
+.tag-audio{background:rgba(34,197,94,.12);color:#4ade80;}
+.tag-coding{background:rgba(251,191,36,.12);color:#fbbf24;}
+.tag-marketing{background:rgba(249,115,22,.12);color:#fb923c;}
+.rating{color:var(--gold);font-size:11px;letter-spacing:1px;}
+.openbtn{margin-top:4px;padding:6px 18px;border:1.5px solid rgba(0,229,255,.4);background:transparent;color:var(--cyan);
+  border-radius:50px;cursor:pointer;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;letter-spacing:.06em;transition:.25s;width:100%;}
+.openbtn:hover{background:var(--cyan);color:#060b18;box-shadow:0 0 12px rgba(0,229,255,.35);}
+.no-results{grid-column:1/-1;padding:60px;color:rgba(200,216,240,.3);font-size:18px;font-family:'Orbitron',monospace;}
+footer{padding:24px;background:rgba(0,0,0,.4);font-family:'Orbitron',monospace;font-size:11px;letter-spacing:.2em;color:rgba(200,216,240,.3);}
+footer span{color:var(--cyan);}
+</style>
+</head>
+<body>
+<header>&#9889; 1 CLICK AI TOOLS</header>
+<p class="subtitle">200 AI Tools &bull; One Place</p>
+<div class="search-wrap"><input id="search" placeholder="Search AI tools..."></div>
+<div class="menu">
+  <button class="active" onclick="filterTools('All',this)">All</button>
+  <button onclick="filterTools('Popular',this)">&#129504; Popular</button>
+  <button onclick="filterTools('Image',this)">&#127912; Image</button>
+  <button onclick="filterTools('Video',this)">&#127916; Video</button>
+  <button onclick="filterTools('Audio',this)">&#127925; Audio</button>
+  <button onclick="filterTools('Coding',this)">&#128187; Coding</button>
+  <button onclick="filterTools('Marketing',this)">&#128200; Marketing</button>
+</div>
+<div id="count"></div>
+<div class="container" id="tools"></div>
+<footer>MADE BY <span>JEEVAN</span> &nbsp;&bull;&nbsp; 200 AI TOOLS</footer>
+
+<script>
+const gradients=['#00e5ff,#0088ff','#ff2d78,#ff6b9d','#c084fc,#7c3aed','#4ade80,#16a34a','#fbbf24,#f59e0b','#fb923c,#ef4444','#00e5ff,#c084fc','#4ade80,#00e5ff'];
+const tagClass={Popular:'popular',Image:'image',Video:'video',Audio:'audio',Coding:'coding',Marketing:'marketing'};
+const tagEmoji={Popular:'&#129504;',Image:'&#127912;',Video:'&#127916;',Audio:'&#127925;',Coding:'&#128187;',Marketing:'&#128200;'};
+
+// Logo URLs: using Google favicon S2 API as primary (high quality), with direct URL fallback
+// Format: [primaryLogoUrl, domain for fallback]
+const tools=[
+// ---- POPULAR 1-30 ----
+{n:"ChatGPT",t:"Popular",u:"https://chat.openai.com",i:"https://cdn.oaistatic.com/assets/favicon-o20kmmos.svg"},
+{n:"Claude",t:"Popular",u:"https://claude.ai",i:"https://claude.ai/favicon.ico"},
+{n:"Gemini",t:"Popular",u:"https://gemini.google.com",i:"https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg"},
+{n:"Perplexity AI",t:"Popular",u:"https://perplexity.ai",i:"https://www.google.com/s2/favicons?domain=perplexity.ai&sz=64"},
+{n:"Microsoft Copilot",t:"Popular",u:"https://copilot.microsoft.com",i:"https://www.google.com/s2/favicons?domain=copilot.microsoft.com&sz=64"},
+{n:"Jasper AI",t:"Popular",u:"https://jasper.ai",i:"https://www.google.com/s2/favicons?domain=jasper.ai&sz=64"},
+{n:"Copy.ai",t:"Popular",u:"https://copy.ai",i:"https://www.google.com/s2/favicons?domain=copy.ai&sz=64"},
+{n:"Writesonic",t:"Popular",u:"https://writesonic.com",i:"https://www.google.com/s2/favicons?domain=writesonic.com&sz=64"},
+{n:"Rytr",t:"Popular",u:"https://rytr.me",i:"https://www.google.com/s2/favicons?domain=rytr.me&sz=64"},
+{n:"Anyword",t:"Popular",u:"https://anyword.com",i:"https://www.google.com/s2/favicons?domain=anyword.com&sz=64"},
+{n:"Sudowrite",t:"Popular",u:"https://sudowrite.com",i:"https://www.google.com/s2/favicons?domain=sudowrite.com&sz=64"},
+{n:"Wordtune",t:"Popular",u:"https://wordtune.com",i:"https://www.google.com/s2/favicons?domain=wordtune.com&sz=64"},
+{n:"GrammarlyGO",t:"Popular",u:"https://grammarly.com",i:"https://www.google.com/s2/favicons?domain=grammarly.com&sz=64"},
+{n:"QuillBot",t:"Popular",u:"https://quillbot.com",i:"https://www.google.com/s2/favicons?domain=quillbot.com&sz=64"},
+{n:"Hypotenuse AI",t:"Popular",u:"https://hypotenuse.ai",i:"https://www.google.com/s2/favicons?domain=hypotenuse.ai&sz=64"},
+{n:"LongShot AI",t:"Popular",u:"https://longshot.ai",i:"https://www.google.com/s2/favicons?domain=longshot.ai&sz=64"},
+{n:"Scalenut",t:"Popular",u:"https://scalenut.com",i:"https://www.google.com/s2/favicons?domain=scalenut.com&sz=64"},
+{n:"INK AI",t:"Popular",u:"https://inkforall.com",i:"https://www.google.com/s2/favicons?domain=inkforall.com&sz=64"},
+{n:"Peppertype",t:"Popular",u:"https://peppertype.ai",i:"https://www.google.com/s2/favicons?domain=peppertype.ai&sz=64"},
+{n:"ClosersCopy",t:"Popular",u:"https://closerscopy.com",i:"https://www.google.com/s2/favicons?domain=closerscopy.com&sz=64"},
+{n:"Notion AI",t:"Popular",u:"https://notion.so",i:"https://www.google.com/s2/favicons?domain=notion.so&sz=64"},
+{n:"ClickUp AI",t:"Popular",u:"https://clickup.com",i:"https://www.google.com/s2/favicons?domain=clickup.com&sz=64"},
+{n:"Taskade",t:"Popular",u:"https://taskade.com",i:"https://www.google.com/s2/favicons?domain=taskade.com&sz=64"},
+{n:"Mem AI",t:"Popular",u:"https://mem.ai",i:"https://www.google.com/s2/favicons?domain=mem.ai&sz=64"},
+{n:"Otter.ai",t:"Popular",u:"https://otter.ai",i:"https://www.google.com/s2/favicons?domain=otter.ai&sz=64"},
+{n:"Fireflies AI",t:"Popular",u:"https://fireflies.ai",i:"https://www.google.com/s2/favicons?domain=fireflies.ai&sz=64"},
+{n:"Krisp AI",t:"Popular",u:"https://krisp.ai",i:"https://www.google.com/s2/favicons?domain=krisp.ai&sz=64"},
+{n:"Tactiq",t:"Popular",u:"https://tactiq.io",i:"https://www.google.com/s2/favicons?domain=tactiq.io&sz=64"},
+{n:"Supernormal",t:"Popular",u:"https://supernormal.com",i:"https://www.google.com/s2/favicons?domain=supernormal.com&sz=64"},
+{n:"Rewind AI",t:"Popular",u:"https://rewind.ai",i:"https://www.google.com/s2/favicons?domain=rewind.ai&sz=64"},
+// ---- IMAGE 31-50 ----
+{n:"Midjourney",t:"Image",u:"https://midjourney.com",i:"https://www.google.com/s2/favicons?domain=midjourney.com&sz=64"},
+{n:"DALL-E",t:"Image",u:"https://openai.com/dall-e",i:"https://www.google.com/s2/favicons?domain=openai.com&sz=64"},
+{n:"Stable Diffusion",t:"Image",u:"https://stability.ai",i:"https://www.google.com/s2/favicons?domain=stability.ai&sz=64"},
+{n:"Leonardo AI",t:"Image",u:"https://leonardo.ai",i:"https://www.google.com/s2/favicons?domain=leonardo.ai&sz=64"},
+{n:"DreamStudio",t:"Image",u:"https://dreamstudio.ai",i:"https://www.google.com/s2/favicons?domain=dreamstudio.ai&sz=64"},
+{n:"Playground AI",t:"Image",u:"https://playgroundai.com",i:"https://www.google.com/s2/favicons?domain=playgroundai.com&sz=64"},
+{n:"NightCafe",t:"Image",u:"https://nightcafe.studio",i:"https://www.google.com/s2/favicons?domain=nightcafe.studio&sz=64"},
+{n:"Artbreeder",t:"Image",u:"https://artbreeder.com",i:"https://www.google.com/s2/favicons?domain=artbreeder.com&sz=64"},
+{n:"Deep Dream Generator",t:"Image",u:"https://deepdreamgenerator.com",i:"https://www.google.com/s2/favicons?domain=deepdreamgenerator.com&sz=64"},
+{n:"Runway ML",t:"Video",u:"https://runwayml.com",i:"https://www.google.com/s2/favicons?domain=runwayml.com&sz=64"},
+{n:"Canva AI",t:"Image",u:"https://canva.com",i:"https://www.google.com/s2/favicons?domain=canva.com&sz=64"},
+{n:"Adobe Firefly",t:"Image",u:"https://firefly.adobe.com",i:"https://www.google.com/s2/favicons?domain=adobe.com&sz=64"},
+{n:"Remove.bg",t:"Image",u:"https://remove.bg",i:"https://www.google.com/s2/favicons?domain=remove.bg&sz=64"},
+{n:"Cleanup.pictures",t:"Image",u:"https://cleanup.pictures",i:"https://www.google.com/s2/favicons?domain=cleanup.pictures&sz=64"},
+{n:"Let's Enhance",t:"Image",u:"https://letsenhance.io",i:"https://www.google.com/s2/favicons?domain=letsenhance.io&sz=64"},
+{n:"Upscale.media",t:"Image",u:"https://upscale.media",i:"https://www.google.com/s2/favicons?domain=upscale.media&sz=64"},
+{n:"PhotoRoom",t:"Image",u:"https://photoroom.com",i:"https://www.google.com/s2/favicons?domain=photoroom.com&sz=64"},
+{n:"Pixlr AI",t:"Image",u:"https://pixlr.com",i:"https://www.google.com/s2/favicons?domain=pixlr.com&sz=64"},
+{n:"Fotor AI",t:"Image",u:"https://fotor.com",i:"https://www.google.com/s2/favicons?domain=fotor.com&sz=64"},
+{n:"Luminar AI",t:"Image",u:"https://skylum.com",i:"https://www.google.com/s2/favicons?domain=skylum.com&sz=64"},
+// ---- VIDEO/AUDIO 51-100 ----
+{n:"Pictory",t:"Video",u:"https://pictory.ai",i:"https://www.google.com/s2/favicons?domain=pictory.ai&sz=64"},
+{n:"Synthesia",t:"Video",u:"https://synthesia.io",i:"https://www.google.com/s2/favicons?domain=synthesia.io&sz=64"},
+{n:"HeyGen",t:"Video",u:"https://heygen.com",i:"https://www.google.com/s2/favicons?domain=heygen.com&sz=64"},
+{n:"Descript",t:"Video",u:"https://descript.com",i:"https://www.google.com/s2/favicons?domain=descript.com&sz=64"},
+{n:"VEED AI",t:"Video",u:"https://veed.io",i:"https://www.google.com/s2/favicons?domain=veed.io&sz=64"},
+{n:"Lumen5",t:"Video",u:"https://lumen5.com",i:"https://www.google.com/s2/favicons?domain=lumen5.com&sz=64"},
+{n:"InVideo AI",t:"Video",u:"https://invideo.io",i:"https://www.google.com/s2/favicons?domain=invideo.io&sz=64"},
+{n:"Kapwing AI",t:"Video",u:"https://kapwing.com",i:"https://www.google.com/s2/favicons?domain=kapwing.com&sz=64"},
+{n:"Opus Clip",t:"Video",u:"https://opus.pro",i:"https://www.google.com/s2/favicons?domain=opus.pro&sz=64"},
+{n:"Wisecut",t:"Video",u:"https://wisecut.video",i:"https://www.google.com/s2/favicons?domain=wisecut.video&sz=64"},
+{n:"ElevenLabs",t:"Audio",u:"https://elevenlabs.io",i:"https://www.google.com/s2/favicons?domain=elevenlabs.io&sz=64"},
+{n:"Murf AI",t:"Audio",u:"https://murf.ai",i:"https://www.google.com/s2/favicons?domain=murf.ai&sz=64"},
+{n:"PlayHT",t:"Audio",u:"https://play.ht",i:"https://www.google.com/s2/favicons?domain=play.ht&sz=64"},
+{n:"Resemble AI",t:"Audio",u:"https://resemble.ai",i:"https://www.google.com/s2/favicons?domain=resemble.ai&sz=64"},
+{n:"Lovo AI",t:"Audio",u:"https://lovo.ai",i:"https://www.google.com/s2/favicons?domain=lovo.ai&sz=64"},
+{n:"Speechify",t:"Audio",u:"https://speechify.com",i:"https://www.google.com/s2/favicons?domain=speechify.com&sz=64"},
+{n:"Cleanvoice AI",t:"Audio",u:"https://cleanvoice.ai",i:"https://www.google.com/s2/favicons?domain=cleanvoice.ai&sz=64"},
+{n:"Podcastle",t:"Audio",u:"https://podcastle.ai",i:"https://www.google.com/s2/favicons?domain=podcastle.ai&sz=64"},
+{n:"Audo AI",t:"Audio",u:"https://audo.ai",i:"https://www.google.com/s2/favicons?domain=audo.ai&sz=64"},
+{n:"Adobe Podcast AI",t:"Audio",u:"https://podcast.adobe.com",i:"https://www.google.com/s2/favicons?domain=adobe.com&sz=64"},
+{n:"Runway Gen-2",t:"Video",u:"https://runwayml.com",i:"https://www.google.com/s2/favicons?domain=runwayml.com&sz=64"},
+{n:"Kaiber AI",t:"Video",u:"https://kaiber.ai",i:"https://www.google.com/s2/favicons?domain=kaiber.ai&sz=64"},
+{n:"AnimateDiff",t:"Video",u:"https://github.com/guoyww/AnimateDiff",i:"https://www.google.com/s2/favicons?domain=github.com&sz=64"},
+{n:"DeepBrain AI",t:"Video",u:"https://deepbrain.io",i:"https://www.google.com/s2/favicons?domain=deepbrain.io&sz=64"},
+{n:"Colossyan",t:"Video",u:"https://colossyan.com",i:"https://www.google.com/s2/favicons?domain=colossyan.com&sz=64"},
+{n:"Hour One",t:"Video",u:"https://hourone.ai",i:"https://www.google.com/s2/favicons?domain=hourone.ai&sz=64"},
+{n:"Fliki",t:"Video",u:"https://fliki.ai",i:"https://www.google.com/s2/favicons?domain=fliki.ai&sz=64"},
+{n:"Vidyo AI",t:"Video",u:"https://vidyo.ai",i:"https://www.google.com/s2/favicons?domain=vidyo.ai&sz=64"},
+{n:"Tavus",t:"Video",u:"https://tavus.io",i:"https://www.google.com/s2/favicons?domain=tavus.io&sz=64"},
+{n:"D-ID",t:"Video",u:"https://d-id.com",i:"https://www.google.com/s2/favicons?domain=d-id.com&sz=64"},
+{n:"Magisto",t:"Video",u:"https://magisto.com",i:"https://www.google.com/s2/favicons?domain=magisto.com&sz=64"},
+{n:"FlexClip AI",t:"Video",u:"https://flexclip.com",i:"https://www.google.com/s2/favicons?domain=flexclip.com&sz=64"},
+{n:"Animoto",t:"Video",u:"https://animoto.com",i:"https://www.google.com/s2/favicons?domain=animoto.com&sz=64"},
+{n:"Synths Video",t:"Video",u:"https://synths.video",i:"https://www.google.com/s2/favicons?domain=synths.video&sz=64"},
+{n:"Steve AI",t:"Video",u:"https://steve.ai",i:"https://www.google.com/s2/favicons?domain=steve.ai&sz=64"},
+{n:"Veed Studio",t:"Video",u:"https://veed.io",i:"https://www.google.com/s2/favicons?domain=veed.io&sz=64"},
+{n:"Wave.video",t:"Video",u:"https://wave.video",i:"https://www.google.com/s2/favicons?domain=wave.video&sz=64"},
+{n:"Filmora AI",t:"Video",u:"https://filmora.wondershare.com",i:"https://www.google.com/s2/favicons?domain=wondershare.com&sz=64"},
+{n:"Topaz Video AI",t:"Video",u:"https://topazlabs.com",i:"https://www.google.com/s2/favicons?domain=topazlabs.com&sz=64"},
+{n:"Gling AI",t:"Video",u:"https://gling.ai",i:"https://www.google.com/s2/favicons?domain=gling.ai&sz=64"},
+{n:"Opus AI",t:"Video",u:"https://opus.ai",i:"https://www.google.com/s2/favicons?domain=opus.ai&sz=64"},
+{n:"Powtoon AI",t:"Video",u:"https://powtoon.com",i:"https://www.google.com/s2/favicons?domain=powtoon.com&sz=64"},
+{n:"Rephrase AI",t:"Video",u:"https://rephrase.ai",i:"https://www.google.com/s2/favicons?domain=rephrase.ai&sz=64"},
+{n:"Movio AI",t:"Video",u:"https://movio.la",i:"https://www.google.com/s2/favicons?domain=movio.la&sz=64"},
+{n:"Synthesys",t:"Audio",u:"https://synthesys.io",i:"https://www.google.com/s2/favicons?domain=synthesys.io&sz=64"},
+{n:"Raw Shorts",t:"Video",u:"https://rawshorts.com",i:"https://www.google.com/s2/favicons?domain=rawshorts.com&sz=64"},
+{n:"Clipchamp AI",t:"Video",u:"https://clipchamp.com",i:"https://www.google.com/s2/favicons?domain=clipchamp.com&sz=64"},
+{n:"GliaCloud",t:"Video",u:"https://gliacloud.com",i:"https://www.google.com/s2/favicons?domain=gliacloud.com&sz=64"},
+{n:"Designs AI",t:"Image",u:"https://designs.ai",i:"https://www.google.com/s2/favicons?domain=designs.ai&sz=64"},
+{n:"Dubverse",t:"Audio",u:"https://dubverse.ai",i:"https://www.google.com/s2/favicons?domain=dubverse.ai&sz=64"},
+// ---- CODING 101-130 ----
+{n:"GitHub Copilot",t:"Coding",u:"https://github.com/features/copilot",i:"https://www.google.com/s2/favicons?domain=github.com&sz=64"},
+{n:"Codeium",t:"Coding",u:"https://codeium.com",i:"https://www.google.com/s2/favicons?domain=codeium.com&sz=64"},
+{n:"Tabnine",t:"Coding",u:"https://tabnine.com",i:"https://www.google.com/s2/favicons?domain=tabnine.com&sz=64"},
+{n:"Replit Ghostwriter",t:"Coding",u:"https://replit.com",i:"https://www.google.com/s2/favicons?domain=replit.com&sz=64"},
+{n:"Cursor AI",t:"Coding",u:"https://cursor.sh",i:"https://www.google.com/s2/favicons?domain=cursor.sh&sz=64"},
+{n:"Amazon CodeWhisperer",t:"Coding",u:"https://aws.amazon.com/codewhisperer",i:"https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=64"},
+{n:"Codium AI",t:"Coding",u:"https://codium.ai",i:"https://www.google.com/s2/favicons?domain=codium.ai&sz=64"},
+{n:"Sourcegraph Cody",t:"Coding",u:"https://sourcegraph.com",i:"https://www.google.com/s2/favicons?domain=sourcegraph.com&sz=64"},
+{n:"Mutable AI",t:"Coding",u:"https://mutable.ai",i:"https://www.google.com/s2/favicons?domain=mutable.ai&sz=64"},
+{n:"AskCodi",t:"Coding",u:"https://askcodi.com",i:"https://www.google.com/s2/favicons?domain=askcodi.com&sz=64"},
+{n:"Blackbox AI",t:"Coding",u:"https://blackbox.ai",i:"https://www.google.com/s2/favicons?domain=blackbox.ai&sz=64"},
+{n:"Phind",t:"Coding",u:"https://phind.com",i:"https://www.google.com/s2/favicons?domain=phind.com&sz=64"},
+{n:"CodeT5",t:"Coding",u:"https://huggingface.co",i:"https://www.google.com/s2/favicons?domain=huggingface.co&sz=64"},
+{n:"DeepCode",t:"Coding",u:"https://snyk.io",i:"https://www.google.com/s2/favicons?domain=snyk.io&sz=64"},
+{n:"PolyCoder",t:"Coding",u:"https://github.com",i:"https://www.google.com/s2/favicons?domain=github.com&sz=64"},
+{n:"AlphaCode",t:"Coding",u:"https://deepmind.google",i:"https://www.google.com/s2/favicons?domain=deepmind.google&sz=64"},
+{n:"Build AI",t:"Coding",u:"https://buildai.space",i:"https://www.google.com/s2/favicons?domain=buildai.space&sz=64"},
+{n:"Debuild",t:"Coding",u:"https://debuild.app",i:"https://www.google.com/s2/favicons?domain=debuild.app&sz=64"},
+{n:"Uizard",t:"Coding",u:"https://uizard.io",i:"https://www.google.com/s2/favicons?domain=uizard.io&sz=64"},
+{n:"TeleportHQ",t:"Coding",u:"https://teleporthq.io",i:"https://www.google.com/s2/favicons?domain=teleporthq.io&sz=64"},
+{n:"Builder AI",t:"Coding",u:"https://builder.ai",i:"https://www.google.com/s2/favicons?domain=builder.ai&sz=64"},
+{n:"Appy Pie AI",t:"Coding",u:"https://appypie.com",i:"https://www.google.com/s2/favicons?domain=appypie.com&sz=64"},
+{n:"Durable AI",t:"Coding",u:"https://durable.co",i:"https://www.google.com/s2/favicons?domain=durable.co&sz=64"},
+{n:"Framer AI",t:"Coding",u:"https://framer.com",i:"https://www.google.com/s2/favicons?domain=framer.com&sz=64"},
+{n:"10Web AI",t:"Coding",u:"https://10web.io",i:"https://www.google.com/s2/favicons?domain=10web.io&sz=64"},
+{n:"Wix AI",t:"Coding",u:"https://wix.com",i:"https://www.google.com/s2/favicons?domain=wix.com&sz=64"},
+{n:"Hostinger AI Builder",t:"Coding",u:"https://hostinger.com",i:"https://www.google.com/s2/favicons?domain=hostinger.com&sz=64"},
+{n:"ZipWP",t:"Coding",u:"https://zipwp.com",i:"https://www.google.com/s2/favicons?domain=zipwp.com&sz=64"},
+{n:"Typedream AI",t:"Coding",u:"https://typedream.com",i:"https://www.google.com/s2/favicons?domain=typedream.com&sz=64"},
+{n:"Butternut AI",t:"Coding",u:"https://butternut.ai",i:"https://www.google.com/s2/favicons?domain=butternut.ai&sz=64"},
+// ---- MARKETING 131-200 ----
+{n:"Surfer SEO",t:"Marketing",u:"https://surferseo.com",i:"https://www.google.com/s2/favicons?domain=surferseo.com&sz=64"},
+{n:"MarketMuse",t:"Marketing",u:"https://marketmuse.com",i:"https://www.google.com/s2/favicons?domain=marketmuse.com&sz=64"},
+{n:"NeuronWriter",t:"Marketing",u:"https://neuronwriter.com",i:"https://www.google.com/s2/favicons?domain=neuronwriter.com&sz=64"},
+{n:"Frase AI",t:"Marketing",u:"https://frase.io",i:"https://www.google.com/s2/favicons?domain=frase.io&sz=64"},
+{n:"GrowthBar",t:"Marketing",u:"https://growthbarseo.com",i:"https://www.google.com/s2/favicons?domain=growthbarseo.com&sz=64"},
+{n:"Outranking",t:"Marketing",u:"https://outranking.io",i:"https://www.google.com/s2/favicons?domain=outranking.io&sz=64"},
+{n:"Clearscope",t:"Marketing",u:"https://clearscope.io",i:"https://www.google.com/s2/favicons?domain=clearscope.io&sz=64"},
+{n:"SE Ranking AI",t:"Marketing",u:"https://seranking.com",i:"https://www.google.com/s2/favicons?domain=seranking.com&sz=64"},
+{n:"WriterZen",t:"Marketing",u:"https://writerzen.net",i:"https://www.google.com/s2/favicons?domain=writerzen.net&sz=64"},
+{n:"Keyword Insights AI",t:"Marketing",u:"https://keywordinsights.ai",i:"https://www.google.com/s2/favicons?domain=keywordinsights.ai&sz=64"},
+{n:"Tidio AI",t:"Marketing",u:"https://tidio.com",i:"https://www.google.com/s2/favicons?domain=tidio.com&sz=64"},
+{n:"ManyChat AI",t:"Marketing",u:"https://manychat.com",i:"https://www.google.com/s2/favicons?domain=manychat.com&sz=64"},
+{n:"Drift AI",t:"Marketing",u:"https://drift.com",i:"https://www.google.com/s2/favicons?domain=drift.com&sz=64"},
+{n:"Intercom AI",t:"Marketing",u:"https://intercom.com",i:"https://www.google.com/s2/favicons?domain=intercom.com&sz=64"},
+{n:"Freshchat AI",t:"Marketing",u:"https://freshworks.com",i:"https://www.google.com/s2/favicons?domain=freshworks.com&sz=64"},
+{n:"Ada AI",t:"Marketing",u:"https://ada.cx",i:"https://www.google.com/s2/favicons?domain=ada.cx&sz=64"},
+{n:"LivePerson AI",t:"Marketing",u:"https://liveperson.com",i:"https://www.google.com/s2/favicons?domain=liveperson.com&sz=64"},
+{n:"Chatfuel AI",t:"Marketing",u:"https://chatfuel.com",i:"https://www.google.com/s2/favicons?domain=chatfuel.com&sz=64"},
+{n:"Botpress AI",t:"Marketing",u:"https://botpress.com",i:"https://www.google.com/s2/favicons?domain=botpress.com&sz=64"},
+{n:"Landbot AI",t:"Marketing",u:"https://landbot.io",i:"https://www.google.com/s2/favicons?domain=landbot.io&sz=64"},
+{n:"Beautiful AI",t:"Marketing",u:"https://beautiful.ai",i:"https://www.google.com/s2/favicons?domain=beautiful.ai&sz=64"},
+{n:"Tome AI",t:"Marketing",u:"https://tome.app",i:"https://www.google.com/s2/favicons?domain=tome.app&sz=64"},
+{n:"Gamma AI",t:"Marketing",u:"https://gamma.app",i:"https://www.google.com/s2/favicons?domain=gamma.app&sz=64"},
+{n:"Decktopus AI",t:"Marketing",u:"https://decktopus.com",i:"https://www.google.com/s2/favicons?domain=decktopus.com&sz=64"},
+{n:"Slides AI",t:"Marketing",u:"https://slidesai.io",i:"https://www.google.com/s2/favicons?domain=slidesai.io&sz=64"},
+{n:"Presentations AI",t:"Marketing",u:"https://presentations.ai",i:"https://www.google.com/s2/favicons?domain=presentations.ai&sz=64"},
+{n:"Pitch AI",t:"Marketing",u:"https://pitch.com",i:"https://www.google.com/s2/favicons?domain=pitch.com&sz=64"},
+{n:"Visme AI",t:"Marketing",u:"https://visme.co",i:"https://www.google.com/s2/favicons?domain=visme.co&sz=64"},
+{n:"Simplified AI",t:"Marketing",u:"https://simplified.com",i:"https://www.google.com/s2/favicons?domain=simplified.com&sz=64"},
+{n:"Ocoya AI",t:"Marketing",u:"https://ocoya.com",i:"https://www.google.com/s2/favicons?domain=ocoya.com&sz=64"},
+{n:"Predis AI",t:"Marketing",u:"https://predis.ai",i:"https://www.google.com/s2/favicons?domain=predis.ai&sz=64"},
+{n:"FeedHive",t:"Marketing",u:"https://feedhive.com",i:"https://www.google.com/s2/favicons?domain=feedhive.com&sz=64"},
+{n:"Hootsuite AI",t:"Marketing",u:"https://hootsuite.com",i:"https://www.google.com/s2/favicons?domain=hootsuite.com&sz=64"},
+{n:"Buffer AI",t:"Marketing",u:"https://buffer.com",i:"https://www.google.com/s2/favicons?domain=buffer.com&sz=64"},
+{n:"Lately AI",t:"Marketing",u:"https://lately.ai",i:"https://www.google.com/s2/favicons?domain=lately.ai&sz=64"},
+{n:"SocialBee AI",t:"Marketing",u:"https://socialbee.com",i:"https://www.google.com/s2/favicons?domain=socialbee.com&sz=64"},
+{n:"Publer AI",t:"Marketing",u:"https://publer.io",i:"https://www.google.com/s2/favicons?domain=publer.io&sz=64"},
+{n:"Vista Social AI",t:"Marketing",u:"https://vistasocial.com",i:"https://www.google.com/s2/favicons?domain=vistasocial.com&sz=64"},
+{n:"Brand24 AI",t:"Marketing",u:"https://brand24.com",i:"https://www.google.com/s2/favicons?domain=brand24.com&sz=64"},
+{n:"Mention AI",t:"Marketing",u:"https://mention.com",i:"https://www.google.com/s2/favicons?domain=mention.com&sz=64"},
+{n:"Looka AI",t:"Marketing",u:"https://looka.com",i:"https://www.google.com/s2/favicons?domain=looka.com&sz=64"},
+{n:"LogoAI",t:"Marketing",u:"https://logoai.com",i:"https://www.google.com/s2/favicons?domain=logoai.com&sz=64"},
+{n:"Brandmark",t:"Marketing",u:"https://brandmark.io",i:"https://www.google.com/s2/favicons?domain=brandmark.io&sz=64"},
+{n:"Tailor Brands",t:"Marketing",u:"https://tailorbrands.com",i:"https://www.google.com/s2/favicons?domain=tailorbrands.com&sz=64"},
+{n:"Zyro AI",t:"Marketing",u:"https://zyro.com",i:"https://www.google.com/s2/favicons?domain=zyro.com&sz=64"},
+{n:"Durable CRM AI",t:"Marketing",u:"https://durable.co",i:"https://www.google.com/s2/favicons?domain=durable.co&sz=64"},
+{n:"Levity AI",t:"Marketing",u:"https://levity.ai",i:"https://www.google.com/s2/favicons?domain=levity.ai&sz=64"},
+{n:"Obviously AI",t:"Marketing",u:"https://obviously.ai",i:"https://www.google.com/s2/favicons?domain=obviously.ai&sz=64"},
+{n:"MonkeyLearn",t:"Marketing",u:"https://monkeylearn.com",i:"https://www.google.com/s2/favicons?domain=monkeylearn.com&sz=64"},
+{n:"Akkio",t:"Marketing",u:"https://akkio.com",i:"https://www.google.com/s2/favicons?domain=akkio.com&sz=64"},
+{n:"Poly AI",t:"Marketing",u:"https://poly.ai",i:"https://www.google.com/s2/favicons?domain=poly.ai&sz=64"},
+{n:"Observe AI",t:"Marketing",u:"https://observe.ai",i:"https://www.google.com/s2/favicons?domain=observe.ai&sz=64"},
+{n:"Kore AI",t:"Marketing",u:"https://kore.ai",i:"https://www.google.com/s2/favicons?domain=kore.ai&sz=64"},
+{n:"Snorkel AI",t:"Marketing",u:"https://snorkel.ai",i:"https://www.google.com/s2/favicons?domain=snorkel.ai&sz=64"},
+{n:"H2O AI",t:"Marketing",u:"https://h2o.ai",i:"https://www.google.com/s2/favicons?domain=h2o.ai&sz=64"},
+{n:"DataRobot",t:"Marketing",u:"https://datarobot.com",i:"https://www.google.com/s2/favicons?domain=datarobot.com&sz=64"},
+{n:"RapidMiner",t:"Marketing",u:"https://rapidminer.com",i:"https://www.google.com/s2/favicons?domain=rapidminer.com&sz=64"},
+{n:"Alteryx AI",t:"Marketing",u:"https://alteryx.com",i:"https://www.google.com/s2/favicons?domain=alteryx.com&sz=64"},
+{n:"C3 AI",t:"Marketing",u:"https://c3.ai",i:"https://www.google.com/s2/favicons?domain=c3.ai&sz=64"},
+{n:"Scale AI",t:"Marketing",u:"https://scale.com",i:"https://www.google.com/s2/favicons?domain=scale.com&sz=64"},
+{n:"Spellbook AI",t:"Marketing",u:"https://spellbook.legal",i:"https://www.google.com/s2/favicons?domain=spellbook.legal&sz=64"},
+{n:"Harvey AI",t:"Marketing",u:"https://harvey.ai",i:"https://www.google.com/s2/favicons?domain=harvey.ai&sz=64"},
+{n:"DoNotPay",t:"Marketing",u:"https://donotpay.com",i:"https://www.google.com/s2/favicons?domain=donotpay.com&sz=64"},
+{n:"Kira AI",t:"Marketing",u:"https://kirasystems.com",i:"https://www.google.com/s2/favicons?domain=kirasystems.com&sz=64"},
+{n:"Casetext AI",t:"Marketing",u:"https://casetext.com",i:"https://www.google.com/s2/favicons?domain=casetext.com&sz=64"},
+{n:"LawGeex",t:"Marketing",u:"https://lawgeex.com",i:"https://www.google.com/s2/favicons?domain=lawgeex.com&sz=64"},
+{n:"Lexion AI",t:"Marketing",u:"https://lexion.ai",i:"https://www.google.com/s2/favicons?domain=lexion.ai&sz=64"},
+{n:"Spell AI",t:"Marketing",u:"https://spell.ml",i:"https://www.google.com/s2/favicons?domain=spell.ml&sz=64"},
+{n:"Bardeen AI",t:"Marketing",u:"https://bardeen.ai",i:"https://www.google.com/s2/favicons?domain=bardeen.ai&sz=64"},
+{n:"Zapier AI",t:"Marketing",u:"https://zapier.com",i:"https://www.google.com/s2/favicons?domain=zapier.com&sz=64"}
+];
+
+function getInitials(name){return name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();}
+function getGrad(name){return gradients[name.charCodeAt(0)%gradients.length];}
+
+function show(list){
+  const c=document.getElementById("tools");
+  document.getElementById("count").textContent=list.length+" tools found";
+  c.innerHTML="";
+  if(!list.length){c.innerHTML='<div class="no-results">No tools found &#129302;</div>';return;}
+  list.forEach(x=>{
+    const d=document.createElement("div");
+    d.className="card";
+    const tc=tagClass[x.t]||'popular';
+    const te=tagEmoji[x.t]||'';
+    const g=getGrad(x.n);
+    const ini=getInitials(x.n);
+    const imgId="img_"+Math.random().toString(36).substr(2,6);
+    const fbId="fb_"+Math.random().toString(36).substr(2,6);
+    d.innerHTML=`
+      <div class="logo-wrap">
+        <img id="${imgId}" src="${x.i}" alt="${x.n}" width="40" height="40"
+          onerror="document.getElementById('${imgId}').style.display='none';document.getElementById('${fbId}').style.display='flex';">
+        <div id="${fbId}" class="logo-fallback" style="background:linear-gradient(135deg,${g})">${ini}</div>
+      </div>
+      <h3>${x.n}</h3>
+      <span class="tag tag-${tc}">${te} ${x.t}</span>
+      <div class="rating">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+      <button class="openbtn" onclick="window.open('${x.u}','_blank')">Open &#8594;</button>
+    `;
+    c.appendChild(d);
+  });
+}
+
+let currentFilter='All';
+function filterTools(type,btn){
+  currentFilter=type;
+  document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  applyFilters(type,document.getElementById("search").value.toLowerCase());
+}
+function applyFilters(type,q){
+  let list=tools;
+  if(type!=='All')list=list.filter(x=>x.t===type);
+  if(q)list=list.filter(x=>x.n.toLowerCase().includes(q));
+  show(list);
+}
+document.getElementById("search").addEventListener("input",function(){
+  applyFilters(currentFilter,this.value.toLowerCase());
+});
+show(tools);
+</script>
+</body>
+</html>
