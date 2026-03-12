@@ -90,19 +90,6 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);text-a
 header{padding:10px 20px 10px;font-family:'Orbitron',monospace;font-size:clamp(18px,4vw,32px);font-weight:900;letter-spacing:.1em;background:linear-gradient(90deg,var(--cyan),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 18px rgba(0,229,255,.4));position:relative;z-index:10;}
 .subtitle{font-size:13px;color:var(--subtext);margin-bottom:14px;letter-spacing:.2em;text-transform:uppercase;position:relative;z-index:10;}
 
-/* ===== TOP PICKS ===== */
-.top-picks-wrap{position:relative;z-index:10;padding:0 18px 20px;max-width:1400px;margin:0 auto;}
-.top-picks-title{font-family:'Orbitron',monospace;font-size:12px;color:var(--gold);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px;}
-.top-picks-title::before,.top-picks-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold));max-width:120px;}
-.top-picks-title::after{background:linear-gradient(90deg,var(--gold),transparent);}
-.top-picks{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;justify-content:center;flex-wrap:wrap;}
-.top-picks::-webkit-scrollbar{height:3px;}
-.top-picks::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
-.tp-card{background:linear-gradient(135deg,rgba(0,229,255,.1),rgba(124,58,237,.1));border:1px solid rgba(0,229,255,.25);border-radius:12px;padding:10px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:.25s;flex-shrink:0;text-decoration:none;}
-.tp-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,229,255,.2);border-color:var(--cyan);}
-.tp-card img{width:28px;height:28px;border-radius:6px;object-fit:contain;}
-.tp-card span{font-size:12px;font-weight:600;color:var(--text);}
-.tp-fb{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:10px;font-weight:900;color:#fff;}
 
 /* ===== SEARCH ===== */
 .search-wrap{display:flex;justify-content:center;margin:10px auto 18px;position:relative;z-index:10;}
@@ -262,11 +249,6 @@ footer{padding:20px;background:var(--header-bg);font-family:'Orbitron',monospace
 <header>⚡ TARMA 4R AI — 1 CLICK AI TOOLS</header>
 <p class="subtitle">224+ AI Tools &bull; One Place &bull; By Jeevan Rawat</p>
 
-<!-- TOP PICKS -->
-<div class="top-picks-wrap">
-  <div class="top-picks-title">🏆 Top Picks</div>
-  <div class="top-picks" id="topPicks"></div>
-</div>
 
 <div class="search-wrap"><input id="search" placeholder="Search AI tools..."></div>
 <div class="menu" id="menuBar"></div>
@@ -533,7 +515,6 @@ const tools=[
 ];
 
 /* ===== TOP PICKS (fixed 8) ===== */
-const topPickNames=["ChatGPT","Midjourney","ElevenLabs","GitHub Copilot","Grok AI","Canva AI","Suno AI","Gamma AI"];
 
 /* ===== CATEGORY META ===== */
 const cats=[
@@ -606,21 +587,6 @@ function buildMenu(){
   mb.appendChild(fb);
 }
 
-/* ===== BUILD TOP PICKS ===== */
-function buildTopPicks(){
-  const tp=document.getElementById('topPicks');
-  topPickNames.forEach(name=>{
-    const tool=tools.find(x=>x.n===name);
-    if(!tool)return;
-    const a=document.createElement('a');
-    a.href=tool.u;a.target='_blank';a.className='tp-card';
-    const uid='tp'+Math.random().toString(36).substr(2,5);
-    const fid='tpf'+Math.random().toString(36).substr(2,5);
-    const g=getGrad(tool.n);
-    a.innerHTML=`<img id="${uid}" src="${tool.i}" width="28" height="28" onerror="document.getElementById('${uid}').style.display='none';document.getElementById('${fid}').style.display='flex'"><div id="${fid}" class="tp-fb" style="display:none;background:linear-gradient(135deg,${g})">${tool.n.charAt(0)}</div><span>${tool.n}</span>`;
-    tp.appendChild(a);
-  });
-}
 
 /* ===== RENDER CARDS ===== */
 function show(list){
@@ -749,7 +715,6 @@ buildLangGrid();
 
 /* ===== INIT ===== */
 buildMenu();
-buildTopPicks();
 show(tools);
 </script>
 </body>
