@@ -3,9 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TARMA 4R AI – 200+ Free AI Tools Website</title>
-<meta name="description" content="TARMA 4R AI is a website where you can access 200+ free AI tools for study, content creation, coding, productivity and more. Explore the best AI tools online.">
-<meta name="keywords" content="TARMA 4R AI, AI tools, free AI tools, best AI tools, AI tools website, AI tools for students, 200 AI tools free">
+<title>TARMA 4R AI - Free AI Tools Website</title>
 <meta name="google-site-verification" content="iCXtIfV9mgg0SBcfZ5zYhu4a8ci18JV-0AS7PZd9_oA" />
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Syne:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
@@ -82,7 +80,6 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);text-a
 .lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;max-height:300px;overflow-y:auto;}
 .lang-btn{padding:5px 8px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--text);font-size:11px;cursor:pointer;text-align:left;transition:.2s;font-family:'Syne',sans-serif;}
 .lang-btn:hover,.lang-btn.active{background:var(--cyan);color:#060b18;border-color:var(--cyan);}
-/* scrollbar inside panel */
 .dot-menu-panel::-webkit-scrollbar{width:4px;}
 .dot-menu-panel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
 .lang-grid::-webkit-scrollbar{width:4px;}
@@ -91,7 +88,6 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);text-a
 /* ===== HEADER ===== */
 header{padding:10px 20px 10px;font-family:'Orbitron',monospace;font-size:clamp(18px,4vw,32px);font-weight:900;letter-spacing:.1em;background:linear-gradient(90deg,var(--cyan),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 18px rgba(0,229,255,.4));position:relative;z-index:10;}
 .subtitle{font-size:13px;color:var(--subtext);margin-bottom:14px;letter-spacing:.2em;text-transform:uppercase;position:relative;z-index:10;}
-
 
 /* ===== SEARCH ===== */
 .search-wrap{display:flex;justify-content:center;margin:10px auto 18px;position:relative;z-index:10;}
@@ -107,8 +103,23 @@ header{padding:10px 20px 10px;font-family:'Orbitron',monospace;font-size:clamp(1
 .menu button.active .badge{background:rgba(0,0,0,.2);color:#060b18;}
 #count{font-size:12px;color:var(--subtext);margin-bottom:10px;letter-spacing:.3em;position:relative;z-index:10;}
 
-/* ===== CARDS GRID ===== */
-.container{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:14px;padding:10px 18px 30px;max-width:1400px;margin:0 auto;position:relative;z-index:10;}
+/* ===== CARDS GRID — HAMESHA 2 COLUMNS ===== */
+.container{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr); /* ✅ FIXED: Hamesha 2 columns */
+  gap:14px;
+  padding:10px 14px 30px;
+  max-width:1400px;
+  margin:0 auto;
+  position:relative;
+  z-index:10;
+}
+
+/* Large screens pe 3-4 columns */
+@media(min-width:600px){.container{grid-template-columns:repeat(3,1fr);}}
+@media(min-width:900px){.container{grid-template-columns:repeat(4,1fr);}}
+@media(min-width:1200px){.container{grid-template-columns:repeat(5,1fr);}}
+
 .card{background:var(--card);border-radius:14px;padding:18px 12px 14px;display:flex;flex-direction:column;align-items:center;gap:7px;transition:.3s;position:relative;overflow:hidden;border:1px solid var(--border);}
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),transparent);opacity:0;transition:.3s;}
 .card:hover{background:var(--card2);transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.4);border-color:rgba(0,229,255,.2);}
@@ -193,7 +204,6 @@ footer{padding:20px;background:var(--header-bg);font-family:'Orbitron',monospace
 <script>
 (function(){
   var loader=document.getElementById('tarma-loader');
-
   var steps=[
     {p:10,l:'BOOT SEQUENCE',  m:'&gt; Initializing core modules...'},
     {p:25,l:'NEURAL LINK',    m:'&gt; Loading AI neural pathways...'},
@@ -229,11 +239,9 @@ footer{padding:20px;background:var(--header-bg);font-family:'Orbitron',monospace
   </div>
 </div>
 
-<!-- TOP BAR: 3-dot, theme toggle -->
+<!-- TOP BAR -->
 <div class="topbar">
-  <!-- Language Translate Button -->
   <button class="topbar-btn" id="langBtn" title="Translate Language" onclick="document.getElementById('gt-popup').classList.toggle('open')">🌐</button>
-  <!-- Dark/Light Toggle -->
   <button class="topbar-btn" id="themeBtn" title="Toggle Theme" onclick="toggleTheme()">🌙</button>
 </div>
 
@@ -250,7 +258,6 @@ footer{padding:20px;background:var(--header-bg);font-family:'Orbitron',monospace
 <!-- MAIN WEBSITE -->
 <header>⚡ TARMA 4R AI — 1 CLICK AI TOOLS</header>
 <p class="subtitle">224+ AI Tools &bull; One Place &bull; By Jeevan Rawat</p>
-
 
 <div class="search-wrap"><input id="search" placeholder="Search AI tools..."></div>
 <div class="menu" id="menuBar"></div>
@@ -269,17 +276,14 @@ footer{padding:20px;background:var(--header-bg);font-family:'Orbitron',monospace
   </a>
 </div>
 
-<!-- BACK TO TOP -->
 <button id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
-/* ========== DATA ========== */
 const G='https://www.google.com/s2/favicons?domain=';
 const S='&sz=64';
 const gradients=['#00e5ff,#0088ff','#ff2d78,#ff6b9d','#c084fc,#7c3aed','#4ade80,#16a34a','#fbbf24,#f59e0b','#fb923c,#ef4444','#00e5ff,#c084fc','#4ade80,#00e5ff','#2dd4bf,#0d9488','#a78bfa,#7c3aed'];
 
 const tools=[
-// ===== POPULAR =====
 {n:"ChatGPT",t:"Popular",u:"https://chat.openai.com",i:G+"openai.com"+S},
 {n:"Claude",t:"Popular",u:"https://claude.ai",i:G+"claude.ai"+S},
 {n:"Gemini",t:"Popular",u:"https://gemini.google.com",i:G+"gemini.google.com"+S},
@@ -312,7 +316,6 @@ const tools=[
 {n:"Tactiq",t:"Popular",u:"https://tactiq.io",i:G+"tactiq.io"+S},
 {n:"Supernormal",t:"Popular",u:"https://supernormal.com",i:G+"supernormal.com"+S},
 {n:"Rewind AI",t:"Popular",u:"https://rewind.ai",i:G+"rewind.ai"+S},
-// ===== IMAGE =====
 {n:"Midjourney",t:"Image",u:"https://midjourney.com",i:G+"midjourney.com"+S},
 {n:"DALL-E",t:"Image",u:"https://openai.com/dall-e-3",i:G+"openai.com"+S},
 {n:"Stable Diffusion",t:"Image",u:"https://stability.ai",i:G+"stability.ai"+S},
@@ -333,7 +336,6 @@ const tools=[
 {n:"Fotor AI",t:"Image",u:"https://fotor.com",i:G+"fotor.com"+S},
 {n:"Luminar AI",t:"Image",u:"https://skylum.com",i:G+"skylum.com"+S},
 {n:"Designs AI",t:"Image",u:"https://designs.ai",i:G+"designs.ai"+S},
-// ===== VIDEO =====
 {n:"Runway ML",t:"Video",u:"https://runwayml.com",i:G+"runwayml.com"+S},
 {n:"Pictory",t:"Video",u:"https://pictory.ai",i:G+"pictory.ai"+S},
 {n:"Synthesia",t:"Video",u:"https://synthesia.io",i:G+"synthesia.io"+S},
@@ -369,7 +371,6 @@ const tools=[
 {n:"Clipchamp AI",t:"Video",u:"https://clipchamp.com",i:G+"clipchamp.com"+S},
 {n:"GliaCloud",t:"Video",u:"https://gliacloud.com",i:G+"gliacloud.com"+S},
 {n:"AnimateDiff",t:"Video",u:"https://huggingface.co/guoyww/animatediff",i:G+"huggingface.co"+S},
-// ===== AUDIO =====
 {n:"ElevenLabs",t:"Audio",u:"https://elevenlabs.io",i:G+"elevenlabs.io"+S},
 {n:"Murf AI",t:"Audio",u:"https://murf.ai",i:G+"murf.ai"+S},
 {n:"PlayHT",t:"Audio",u:"https://play.ht",i:G+"play.ht"+S},
@@ -384,7 +385,6 @@ const tools=[
 {n:"Dubverse",t:"Audio",u:"https://dubverse.ai",i:G+"dubverse.ai"+S},
 {n:"Descript Audio",t:"Audio",u:"https://descript.com",i:G+"descript.com"+S},
 {n:"Suno AI",t:"Audio",u:"https://suno.ai",i:G+"suno.ai"+S},
-// ===== CODING =====
 {n:"GitHub Copilot",t:"Coding",u:"https://github.com/features/copilot",i:G+"github.com"+S},
 {n:"Codeium",t:"Coding",u:"https://codeium.com",i:G+"codeium.com"+S},
 {n:"Tabnine",t:"Coding",u:"https://tabnine.com",i:G+"tabnine.com"+S},
@@ -415,7 +415,6 @@ const tools=[
 {n:"v0 by Vercel",t:"Coding",u:"https://v0.dev",i:G+"vercel.com"+S},
 {n:"Bolt.new",t:"Coding",u:"https://bolt.new",i:G+"bolt.new"+S},
 {n:"Lovable AI",t:"Coding",u:"https://lovable.dev",i:G+"lovable.dev"+S},
-// ===== MARKETING =====
 {n:"Surfer SEO",t:"Marketing",u:"https://surferseo.com",i:G+"surferseo.com"+S},
 {n:"MarketMuse",t:"Marketing",u:"https://marketmuse.com",i:G+"marketmuse.com"+S},
 {n:"NeuronWriter",t:"Marketing",u:"https://neuronwriter.com",i:G+"neuronwriter.com"+S},
@@ -456,7 +455,6 @@ const tools=[
 {n:"Vista Social AI",t:"Marketing",u:"https://vistasocial.com",i:G+"vistasocial.com"+S},
 {n:"Brand24 AI",t:"Marketing",u:"https://brand24.com",i:G+"brand24.com"+S},
 {n:"Mention AI",t:"Marketing",u:"https://mention.com",i:G+"mention.com"+S},
-// ===== BUSINESS =====
 {n:"Looka AI",t:"Business",u:"https://looka.com",i:G+"looka.com"+S},
 {n:"LogoAI",t:"Business",u:"https://logoai.com",i:G+"logoai.com"+S},
 {n:"Brandmark",t:"Business",u:"https://brandmark.io",i:G+"brandmark.io"+S},
@@ -476,7 +474,6 @@ const tools=[
 {n:"Alteryx AI",t:"Business",u:"https://alteryx.com",i:G+"alteryx.com"+S},
 {n:"C3 AI",t:"Business",u:"https://c3.ai",i:G+"c3.ai"+S},
 {n:"Scale AI",t:"Business",u:"https://scale.com",i:G+"scale.com"+S},
-// ===== LEGAL =====
 {n:"Spellbook AI",t:"Legal",u:"https://spellbook.legal",i:G+"spellbook.legal"+S},
 {n:"Harvey AI",t:"Legal",u:"https://harvey.ai",i:G+"harvey.ai"+S},
 {n:"DoNotPay",t:"Legal",u:"https://donotpay.com",i:G+"donotpay.com"+S},
@@ -484,11 +481,9 @@ const tools=[
 {n:"Casetext AI",t:"Legal",u:"https://casetext.com",i:G+"casetext.com"+S},
 {n:"LawGeex",t:"Legal",u:"https://lawgeex.com",i:G+"lawgeex.com"+S},
 {n:"Lexion AI",t:"Legal",u:"https://lexion.ai",i:G+"lexion.ai"+S},
-// ===== AUTOMATION =====
 {n:"Spell AI",t:"Automation",u:"https://spell.ml",i:G+"spell.ml"+S},
 {n:"Bardeen AI",t:"Automation",u:"https://bardeen.ai",i:G+"bardeen.ai"+S},
 {n:"Zapier AI",t:"Automation",u:"https://zapier.com",i:G+"zapier.com"+S},
-// ===== THUMBNAIL =====
 {n:"VistaCreate",t:"Thumbnail",u:"https://create.vista.com",i:G+"create.vista.com"+S},
 {n:"Adobe Express",t:"Thumbnail",u:"https://express.adobe.com",i:G+"adobe.com"+S},
 {n:"Picsart AI",t:"Thumbnail",u:"https://picsart.com",i:G+"picsart.com"+S},
@@ -497,7 +492,6 @@ const tools=[
 {n:"PicMonkey",t:"Thumbnail",u:"https://picmonkey.com",i:G+"picmonkey.com"+S},
 {n:"Crello",t:"Thumbnail",u:"https://crello.com",i:G+"crello.com"+S},
 {n:"Thumbnail.ai",t:"Thumbnail",u:"https://thumbnail.ai",i:G+"thumbnail.ai"+S},
-// ===== STUDY =====
 {n:"Khan Academy AI",t:"Study",u:"https://khanacademy.org",i:G+"khanacademy.org"+S},
 {n:"Quizlet AI",t:"Study",u:"https://quizlet.com",i:G+"quizlet.com"+S},
 {n:"Socratic",t:"Study",u:"https://socratic.org",i:G+"socratic.org"+S},
@@ -516,24 +510,13 @@ const tools=[
 {n:"Scite AI",t:"Study",u:"https://scite.ai",i:G+"scite.ai"+S},
 ];
 
-/* ===== CATEGORY META ===== */
 const cats=[
-  {k:'All',e:''},
-  {k:'Popular',e:'⭐'},
-  {k:'Image',e:'🎨'},
-  {k:'Video',e:'🎬'},
-  {k:'Audio',e:'🎵'},
-  {k:'Coding',e:'💻'},
-  {k:'Marketing',e:'📈'},
-  {k:'Business',e:'💼'},
-  {k:'Legal',e:'⚖️'},
-  {k:'Automation',e:'🤖'},
-  {k:'Thumbnail',e:'🖼️'},
-  {k:'Study',e:'📚'},
+  {k:'All',e:''},{k:'Popular',e:'⭐'},{k:'Image',e:'🎨'},{k:'Video',e:'🎬'},
+  {k:'Audio',e:'🎵'},{k:'Coding',e:'💻'},{k:'Marketing',e:'📈'},{k:'Business',e:'💼'},
+  {k:'Legal',e:'⚖️'},{k:'Automation',e:'🤖'},{k:'Thumbnail',e:'🖼️'},{k:'Study',e:'📚'},
 ];
 const tagClass={Popular:'popular',Image:'image',Video:'video',Audio:'audio',Coding:'coding',Marketing:'marketing',Business:'business',Legal:'legal',Automation:'automation',Thumbnail:'thumbnail',Study:'study'};
 
-/* ===== LANGUAGES ===== */
 const languages=[
   {n:"English",c:"en"},{n:"Mandarin Chinese",c:"zh-CN"},{n:"Hindi",c:"hi"},{n:"Spanish",c:"es"},
   {n:"French",c:"fr"},{n:"Arabic",c:"ar"},{n:"Bengali",c:"bn"},{n:"Portuguese",c:"pt"},
@@ -562,13 +545,11 @@ const languages=[
   {n:"Sardinian",c:"sc"},{n:"Frisian",c:"fy"},{n:"Occitan",c:"oc"},{n:"Hmong",c:"hmn"},
 ];
 
-/* ===== HELPERS ===== */
 function getInitials(name){return name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();}
 function getGrad(name){return gradients[name.charCodeAt(0)%gradients.length];}
 function getFavs(){try{return JSON.parse(localStorage.getItem('tarma_favs')||'[]');}catch{return[];}}
 function setFavs(a){localStorage.setItem('tarma_favs',JSON.stringify(a));}
 
-/* ===== BUILD MENU WITH BADGES ===== */
 function buildMenu(){
   const mb=document.getElementById('menuBar');
   cats.forEach(c=>{
@@ -579,7 +560,6 @@ function buildMenu(){
     btn.onclick=()=>filterTools(c.k,btn);
     mb.appendChild(btn);
   });
-  // Favourites tab
   const fb=document.createElement('button');
   fb.id='favTab';
   fb.innerHTML='❤️ Saved<span class="badge" id="favBadge">'+getFavs().length+'</span>';
@@ -587,14 +567,11 @@ function buildMenu(){
   mb.appendChild(fb);
 }
 
-/* ===== RENDER CARDS ===== */
 function show(list){
   const c=document.getElementById("tools");
   document.getElementById("count").textContent=list.length+" tools found";
   c.innerHTML="";
-  if(!list.length){
-    c.innerHTML='<div class="no-results">No tools found 🤖</div>';return;
-  }
+  if(!list.length){c.innerHTML='<div class="no-results">No tools found 🤖</div>';return;}
   const favs=getFavs();
   list.forEach(x=>{
     const d=document.createElement("div");
@@ -622,22 +599,15 @@ function show(list){
   });
 }
 
-/* ===== FAVOURITE TOGGLE ===== */
 function toggleFav(name,btn){
   let favs=getFavs();
-  if(favs.includes(name)){
-    favs=favs.filter(f=>f!==name);
-    btn.textContent='🤍';btn.classList.remove('active');
-  } else {
-    favs.push(name);
-    btn.textContent='❤️';btn.classList.add('active');
-  }
+  if(favs.includes(name)){favs=favs.filter(f=>f!==name);btn.textContent='🤍';btn.classList.remove('active');}
+  else{favs.push(name);btn.textContent='❤️';btn.classList.add('active');}
   setFavs(favs);
   document.getElementById('favBadge').textContent=favs.length;
   if(currentFilter==='__favs__') applyFilters('__favs__',document.getElementById("search").value.toLowerCase());
 }
 
-/* ===== FILTER ===== */
 let currentFilter='All';
 function filterTools(type,btn){
   currentFilter=type;
@@ -647,12 +617,8 @@ function filterTools(type,btn){
 }
 function applyFilters(type,q){
   let list=tools;
-  if(type==='__favs__'){
-    const favs=getFavs();
-    list=tools.filter(x=>favs.includes(x.n));
-  } else if(type!=='All'){
-    list=list.filter(x=>x.t===type);
-  }
+  if(type==='__favs__'){const favs=getFavs();list=tools.filter(x=>favs.includes(x.n));}
+  else if(type!=='All'){list=list.filter(x=>x.t===type);}
   if(q)list=list.filter(x=>x.n.toLowerCase().includes(q));
   show(list);
 }
@@ -660,7 +626,6 @@ document.getElementById("search").addEventListener("input",function(){
   applyFilters(currentFilter,this.value.toLowerCase());
 });
 
-/* ===== THEME TOGGLE ===== */
 function toggleTheme(){
   const html=document.documentElement;
   const isDark=html.getAttribute('data-theme')==='dark';
@@ -668,14 +633,12 @@ function toggleTheme(){
   document.getElementById('themeBtn').textContent=isDark?'☀️':'🌙';
 }
 
-/* ===== BACK TO TOP ===== */
 window.addEventListener('scroll',()=>{
   const btn=document.getElementById('backTop');
   if(window.scrollY>400)btn.classList.add('show');
   else btn.classList.remove('show');
 });
 
-/* ===== PARTICLES ===== */
 (function(){
   const container=document.getElementById('particles');
   const colors=['#00e5ff','#7c3aed','#ff2d78','#4ade80','#fbbf24'];
@@ -688,7 +651,6 @@ window.addEventListener('scroll',()=>{
   }
 })();
 
-/* ===== LANGUAGE POPUP ===== */
 function buildLangGrid(filter=''){
   const grid=document.getElementById('langGrid');
   grid.innerHTML='';
@@ -712,7 +674,6 @@ function buildLangGrid(filter=''){
 function filterLangs(v){buildLangGrid(v);}
 buildLangGrid();
 
-/* ===== INIT ===== */
 buildMenu();
 show(tools);
 </script>
