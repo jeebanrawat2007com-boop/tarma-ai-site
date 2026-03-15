@@ -7,13 +7,15 @@
 <meta name="google-site-verification" content="iCXtIfV9mgg0SBcfZ5zYhu4a8ci18JV-0AS7PZd9_oA" />
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Syne:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
-/* ===== LOADER ===== */
+/* ===== LOADING SCREEN ===== */
 #tarma-loader{position:fixed;inset:0;background:#020c14;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;font-family:'Share Tech Mono',monospace;color:#00f5ff;transition:opacity 1.2s ease,visibility 1.2s ease;}
 #tarma-loader.hidden{opacity:0;visibility:hidden;pointer-events:none;}
 #tarma-loader::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,245,255,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.05) 1px,transparent 1px);background-size:40px 40px;}
 .tl-corner,.tr-corner,.bl-corner,.br-corner{position:absolute;width:28px;height:28px;border-color:#00f5ff;border-style:solid;opacity:0.7;}
-.tl-corner{top:20px;left:20px;border-width:2px 0 0 2px;}.tr-corner{top:20px;right:20px;border-width:2px 2px 0 0;}
-.bl-corner{bottom:20px;left:20px;border-width:0 0 2px 2px;}.br-corner{bottom:20px;right:20px;border-width:0 2px 2px 0;}
+.tl-corner{top:20px;left:20px;border-width:2px 0 0 2px;}
+.tr-corner{top:20px;right:20px;border-width:2px 2px 0 0;}
+.bl-corner{bottom:20px;left:20px;border-width:0 0 2px 2px;}
+.br-corner{bottom:20px;right:20px;border-width:0 2px 2px 0;}
 .t-ring{width:120px;height:120px;border-radius:50%;border:2px solid #00f5ff;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;position:relative;box-shadow:0 0 30px rgba(0,245,255,0.2);animation:tspin 8s linear infinite;}
 .t-ring::before{content:'';position:absolute;width:90px;height:90px;border-radius:50%;border:1px dashed rgba(0,245,255,0.4);animation:tspinrev 5s linear infinite;}
 .t-inner{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:900;color:#00f5ff;text-shadow:0 0 20px #00f5ff;animation:tspinrev 8s linear infinite;letter-spacing:2px;}
@@ -31,83 +33,69 @@
 .t-owner{position:absolute;bottom:24px;font-size:10px;letter-spacing:3px;color:rgba(0,245,255,0.35);text-transform:uppercase;}
 .t-owner strong{color:rgba(0,245,255,0.7);}
 
-/* ===== THEME ===== */
-[data-theme="dark"]{--bg:#060b18;--card:#0d1a2e;--card2:#0f2040;--cyan:#00e5ff;--pink:#ff2d78;--gold:#ffd000;--text:#c8d8f0;--subtext:rgba(200,216,240,0.4);--border:rgba(255,255,255,0.04);--border2:rgba(0,229,255,0.35);--search-bg:rgba(0,229,255,0.06);--header-bg:rgba(0,0,0,0.5);--body-bg:radial-gradient(ellipse 80% 40% at 50% -10%,rgba(0,229,255,.13) 0%,transparent 70%),radial-gradient(ellipse 60% 30% at 80% 100%,rgba(255,45,120,.08) 0%,transparent 70%);}
-[data-theme="light"]{--bg:#f0f4ff;--card:#fff;--card2:#e8f0ff;--cyan:#0077cc;--pink:#e0005e;--gold:#b8860b;--text:#1a2340;--subtext:rgba(26,35,64,0.5);--border:rgba(0,0,0,0.07);--border2:rgba(0,119,204,0.4);--search-bg:rgba(0,119,204,0.06);--header-bg:rgba(240,244,255,0.9);--body-bg:radial-gradient(ellipse 80% 40% at 50% -10%,rgba(0,119,204,.08) 0%,transparent 70%),radial-gradient(ellipse 60% 30% at 80% 100%,rgba(224,0,94,.05) 0%,transparent 70%);}
-
-/* ===== LOGIN ===== */
-#login-overlay{position:fixed;inset:0;background:#020c14;z-index:8000;display:none;align-items:center;justify-content:center;}
-#login-overlay::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);background-size:40px 40px;}
-.lbox{background:rgba(13,26,46,0.97);border:1px solid rgba(0,229,255,0.3);border-radius:24px;padding:36px 32px 28px;width:min(400px,94vw);text-align:center;position:relative;box-shadow:0 0 60px rgba(0,229,255,0.1),0 20px 60px rgba(0,0,0,0.8);font-family:'Syne',sans-serif;z-index:1;}
-.lbox::before{content:'';position:absolute;top:0;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,#00e5ff,transparent);}
-.l-ring{width:68px;height:68px;border-radius:50%;border:2px solid #00e5ff;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 0 20px rgba(0,229,255,0.3);animation:tspin 8s linear infinite;}
-.l-ring span{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:900;color:#00e5ff;animation:tspinrev 8s linear infinite;}
-.l-title{font-family:'Orbitron',sans-serif;font-size:clamp(14px,3vw,19px);font-weight:900;letter-spacing:3px;background:linear-gradient(90deg,#00e5ff,#ff2d78);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:3px;}
-.l-sub{font-size:11px;color:rgba(200,216,240,0.35);letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;}
-.l-tabs{display:flex;border:1px solid rgba(0,229,255,0.2);border-radius:10px;overflow:hidden;margin-bottom:16px;}
-.l-tab{flex:1;padding:9px;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;background:transparent;border:none;color:rgba(200,216,240,0.4);cursor:pointer;transition:.2s;}
-.l-tab.active{background:rgba(0,229,255,0.12);color:#00e5ff;}
-.l-inp{width:100%;padding:11px 15px;border-radius:10px;border:1.5px solid rgba(0,229,255,0.18);background:rgba(0,229,255,0.04);color:#c8d8f0;font-family:'Syne',sans-serif;font-size:14px;outline:none;transition:.2s;margin-bottom:9px;box-sizing:border-box;}
-.l-inp:focus{border-color:#00e5ff;background:rgba(0,229,255,0.08);}
-.l-inp::placeholder{color:rgba(200,216,240,0.28);}
-.l-btn{width:100%;padding:12px;border-radius:50px;border:none;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:.3s;display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:9px;letter-spacing:.04em;}
-.l-btn:disabled{opacity:0.5;cursor:not-allowed;}
-.btn-main{background:linear-gradient(90deg,#00e5ff,#0077ff);color:#020c14;box-shadow:0 0 18px rgba(0,229,255,0.25);}
-.btn-main:hover:not(:disabled){box-shadow:0 0 28px rgba(0,229,255,0.45);transform:translateY(-1px);}
-.btn-google{background:rgba(255,255,255,0.05);color:#c8d8f0;border:1.5px solid rgba(0,229,255,0.22);}
-.btn-google:hover:not(:disabled){background:rgba(255,255,255,0.1);border-color:#00e5ff;}
-.btn-guest{background:transparent;color:rgba(200,216,240,0.45);border:1.5px solid rgba(0,229,255,0.12);font-size:12px;}
-.btn-guest:hover:not(:disabled){border-color:rgba(0,229,255,0.35);color:#c8d8f0;}
-.l-div{display:flex;align-items:center;gap:10px;margin:4px 0 10px;color:rgba(200,216,240,0.2);font-size:10px;letter-spacing:2px;}
-.l-div::before,.l-div::after{content:'';flex:1;height:1px;background:rgba(0,229,255,0.1);}
-.l-err{background:rgba(255,45,120,0.1);border:1px solid rgba(255,45,120,0.28);border-radius:8px;padding:8px 12px;color:#ff6b9d;font-size:12px;margin-bottom:10px;display:none;text-align:left;}
-.l-gid{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(0,229,255,0.3);margin-top:4px;}
-.l-cfg-warn{background:rgba(255,193,7,0.08);border:1px solid rgba(255,193,7,0.25);border-radius:8px;padding:8px 12px;color:#ffc107;font-size:11px;margin-bottom:12px;display:none;text-align:left;line-height:1.5;}
+/* ===== THEME VARIABLES ===== */
+[data-theme="dark"]{
+  --bg:#060b18;--card:#0d1a2e;--card2:#0f2040;
+  --cyan:#00e5ff;--pink:#ff2d78;--gold:#ffd000;
+  --text:#c8d8f0;--subtext:rgba(200,216,240,0.4);
+  --border:rgba(255,255,255,0.04);--border2:rgba(0,229,255,0.35);
+  --search-bg:rgba(0,229,255,0.06);--header-bg:rgba(0,0,0,0.5);
+  --body-bg:radial-gradient(ellipse 80% 40% at 50% -10%,rgba(0,229,255,.13) 0%,transparent 70%),radial-gradient(ellipse 60% 30% at 80% 100%,rgba(255,45,120,.08) 0%,transparent 70%);
+}
+[data-theme="light"]{
+  --bg:#f0f4ff;--card:#fff;--card2:#e8f0ff;
+  --cyan:#0077cc;--pink:#e0005e;--gold:#b8860b;
+  --text:#1a2340;--subtext:rgba(26,35,64,0.5);
+  --border:rgba(0,0,0,0.07);--border2:rgba(0,119,204,0.4);
+  --search-bg:rgba(0,119,204,0.06);--header-bg:rgba(240,244,255,0.9);
+  --body-bg:radial-gradient(ellipse 80% 40% at 50% -10%,rgba(0,119,204,.08) 0%,transparent 70%),radial-gradient(ellipse 60% 30% at 80% 100%,rgba(224,0,94,.05) 0%,transparent 70%);
+}
 
 /* ===== PARTICLES ===== */
 #particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
 .particle{position:absolute;border-radius:50%;animation:floatUp linear infinite;opacity:0;}
 @keyframes floatUp{0%{transform:translateY(100vh) scale(0);opacity:0;}10%{opacity:1;}90%{opacity:.4;}100%{transform:translateY(-10vh) scale(1.2);opacity:0;}}
 
-/* ===== TICKER ===== */
+/* ===== MARQUEE TICKER ===== */
 .ticker-wrap{background:rgba(0,229,255,.07);border-top:1px solid rgba(0,229,255,.15);border-bottom:1px solid rgba(0,229,255,.15);overflow:hidden;padding:6px 0;position:relative;z-index:10;}
 .ticker{display:flex;animation:ticker 40s linear infinite;white-space:nowrap;width:max-content;}
 .ticker span{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:2px;padding:0 30px;}
 .ticker span::before{content:'⚡ ';}
 @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* ===== BASE ===== */
+/* ===== MAIN SITE ===== */
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);text-align:center;min-height:100vh;background-image:var(--body-bg);transition:background .4s,color .4s;}
 
-/* ===== TOPBAR ===== */
+/* ===== TOP BAR ===== */
 .topbar{position:relative;z-index:20;display:flex;justify-content:flex-end;align-items:center;padding:10px 18px;gap:10px;}
-.topbar-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border2);background:var(--search-bg);color:var(--text);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:.25s;}
+.topbar-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border2);background:var(--search-bg);color:var(--text);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:.25s;position:relative;}
 .topbar-btn:hover{background:var(--cyan);color:#060b18;border-color:var(--cyan);}
-#user-bar{display:none;align-items:center;gap:9px;padding:5px 13px 5px 5px;border-radius:50px;border:1px solid rgba(0,229,255,0.25);background:rgba(0,229,255,0.06);cursor:pointer;transition:.25s;position:relative;}
-#user-bar:hover{border-color:rgba(0,229,255,0.5);}
-.u-av{width:30px;height:30px;border-radius:50%;object-fit:cover;border:1.5px solid rgba(0,229,255,0.4);flex-shrink:0;}
-.u-av-f{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#00e5ff,#7c3aed);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:11px;font-weight:900;color:#fff;flex-shrink:0;}
-.u-name{font-family:'Syne',sans-serif;font-size:12px;font-weight:600;color:var(--text);max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.u-badge{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--cyan);letter-spacing:1px;}
-#user-dd{position:absolute;top:48px;right:0;background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:14px;min-width:220px;display:none;z-index:200;box-shadow:0 10px 40px rgba(0,0,0,.5);}
-#user-dd.open{display:block;}
-.dd-info{display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid rgba(0,229,255,0.1);margin-bottom:10px;}
-.dd-av{width:38px;height:38px;border-radius:50%;object-fit:cover;}
-.dd-av-f{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#00e5ff,#7c3aed);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:14px;font-weight:900;color:#fff;flex-shrink:0;}
-.dd-name{font-size:13px;font-weight:600;color:var(--text);}
-.dd-email{font-size:10px;color:var(--subtext);font-family:'Share Tech Mono',monospace;word-break:break-all;}
-.dd-gid{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(0,229,255,0.45);margin-top:2px;}
-.dd-out{width:100%;padding:8px;border-radius:10px;border:1px solid rgba(255,45,120,0.3);background:rgba(255,45,120,0.08);color:#ff2d78;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:.2s;}
-.dd-out:hover{background:rgba(255,45,120,0.2);}
+
+/* 3-dot menu */
+.dot-menu-wrap{position:relative;}
+.dot-menu-panel{position:absolute;top:44px;right:0;background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:14px;min-width:260px;max-height:400px;overflow-y:auto;display:none;z-index:100;box-shadow:0 10px 40px rgba(0,0,0,.5);}
+.dot-menu-panel.open{display:block;}
+.dot-menu-panel h4{font-family:'Orbitron',monospace;font-size:11px;color:var(--cyan);letter-spacing:2px;margin-bottom:10px;text-transform:uppercase;}
+.lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;max-height:300px;overflow-y:auto;}
+.lang-btn{padding:5px 8px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--text);font-size:11px;cursor:pointer;text-align:left;transition:.2s;font-family:'Syne',sans-serif;}
+.lang-btn:hover,.lang-btn.active{background:var(--cyan);color:#060b18;border-color:var(--cyan);}
+.dot-menu-panel::-webkit-scrollbar{width:4px;}
+.dot-menu-panel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.lang-grid::-webkit-scrollbar{width:4px;}
+.lang-grid::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
 
 /* ===== HEADER ===== */
 header{padding:10px 20px 10px;font-family:'Orbitron',monospace;font-size:clamp(18px,4vw,32px);font-weight:900;letter-spacing:.1em;background:linear-gradient(90deg,var(--cyan),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 18px rgba(0,229,255,.4));position:relative;z-index:10;}
 .subtitle{font-size:13px;color:var(--subtext);margin-bottom:14px;letter-spacing:.2em;text-transform:uppercase;position:relative;z-index:10;}
+
+/* ===== SEARCH ===== */
 .search-wrap{display:flex;justify-content:center;margin:10px auto 18px;position:relative;z-index:10;}
 #search{width:90%;max-width:440px;padding:12px 20px;border-radius:50px;border:1.5px solid var(--border2);background:var(--search-bg);color:var(--text);font-family:'Syne',sans-serif;font-size:15px;outline:none;transition:.3s;}
-#search:focus{border-color:var(--cyan);}
+#search:focus{border-color:var(--cyan);background:var(--search-bg);}
 #search::placeholder{color:var(--subtext);}
+
+/* ===== FILTER MENU ===== */
 .menu{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;padding:0 16px 18px;position:relative;z-index:10;}
 .menu button{padding:7px 16px;border:1.5px solid var(--border2);background:transparent;color:var(--text);font-family:'Syne',sans-serif;font-size:12px;letter-spacing:.05em;border-radius:25px;cursor:pointer;transition:.25s;display:flex;align-items:center;gap:5px;}
 .menu button .badge{background:rgba(0,229,255,.18);color:var(--cyan);border-radius:20px;padding:1px 7px;font-size:10px;font-weight:700;font-family:'Share Tech Mono',monospace;}
@@ -115,18 +103,33 @@ header{padding:10px 20px 10px;font-family:'Orbitron',monospace;font-size:clamp(1
 .menu button.active .badge{background:rgba(0,0,0,.2);color:#060b18;}
 #count{font-size:12px;color:var(--subtext);margin-bottom:10px;letter-spacing:.3em;position:relative;z-index:10;}
 
-/* ===== CARDS ===== */
-.container{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;padding:10px 14px 30px;max-width:1400px;margin:0 auto;position:relative;z-index:10;}
+/* ===== CARDS GRID — HAMESHA 2 COLUMNS ===== */
+.container{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr); /* ✅ FIXED: Hamesha 2 columns */
+  gap:14px;
+  padding:10px 14px 30px;
+  max-width:1400px;
+  margin:0 auto;
+  position:relative;
+  z-index:10;
+}
+
+/* Large screens pe 3-4 columns */
 @media(min-width:600px){.container{grid-template-columns:repeat(3,1fr);}}
 @media(min-width:900px){.container{grid-template-columns:repeat(4,1fr);}}
 @media(min-width:1200px){.container{grid-template-columns:repeat(5,1fr);}}
+
 .card{background:var(--card);border-radius:14px;padding:18px 12px 14px;display:flex;flex-direction:column;align-items:center;gap:7px;transition:.3s;position:relative;overflow:hidden;border:1px solid var(--border);}
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),transparent);opacity:0;transition:.3s;}
 .card:hover{background:var(--card2);transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.4);border-color:rgba(0,229,255,.2);}
 .card:hover::before{opacity:1;}
+
+/* Favourite button */
 .fav-btn{position:absolute;top:9px;right:9px;background:none;border:none;cursor:pointer;font-size:15px;line-height:1;opacity:.4;transition:.2s;padding:2px;}
 .fav-btn:hover{opacity:1;transform:scale(1.2);}
 .fav-btn.active{opacity:1;}
+
 .logo-wrap{width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;overflow:hidden;}
 .logo-wrap img{width:40px;height:40px;object-fit:contain;border-radius:8px;}
 .logo-fallback{width:40px;height:40px;border-radius:8px;display:none;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:12px;font-weight:900;color:white;}
@@ -148,16 +151,22 @@ header{padding:10px 20px 10px;font-family:'Orbitron',monospace;font-size:clamp(1
 .openbtn:hover{background:var(--cyan);color:#060b18;box-shadow:0 0 12px rgba(0,229,255,.5);}
 .no-results{grid-column:1/-1;padding:60px;color:var(--subtext);font-size:18px;font-family:'Orbitron',monospace;}
 
-/* ===== FOOTER ===== */
+/* ===== FOOTER & SOCIAL ===== */
 footer{padding:20px;background:var(--header-bg);font-family:'Orbitron',monospace;font-size:11px;letter-spacing:.2em;color:var(--cyan);position:relative;z-index:10;}
 .social-bar{background:rgba(0,0,0,.5);padding:18px;display:flex;justify-content:center;gap:20px;flex-wrap:wrap;position:relative;z-index:10;}
+
+/* ===== BACK TO TOP ===== */
 #backTop{position:fixed;bottom:24px;right:20px;width:44px;height:44px;border-radius:50%;border:1.5px solid var(--border2);background:var(--card);color:var(--cyan);font-size:18px;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:50;transition:.3s;box-shadow:0 4px 20px rgba(0,0,0,.4);}
 #backTop:hover{background:var(--cyan);color:#060b18;}
 #backTop.show{display:flex;}
-::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
 
-/* ===== TRANSLATE ===== */
-#gt-popup{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
+/* ===== TRANSLATE POPUP ===== */
+#gt-popup{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
 #gt-popup.open{display:flex;}
 #gt-box{background:var(--card);border:1px solid var(--border2);border-radius:18px;padding:20px;width:min(380px,92vw);max-height:80vh;overflow-y:auto;position:relative;}
 #gt-box h3{font-family:'Orbitron',monospace;font-size:13px;color:var(--cyan);letter-spacing:2px;margin-bottom:14px;}
@@ -165,18 +174,19 @@ footer{padding:20px;background:var(--header-bg);font-family:'Orbitron',monospace
 #gt-close:hover{opacity:1;}
 .lang-search{width:100%;padding:8px 14px;border-radius:30px;border:1px solid var(--border2);background:var(--search-bg);color:var(--text);font-family:'Syne',sans-serif;font-size:13px;outline:none;margin-bottom:10px;}
 .lang-search::placeholder{color:var(--subtext);}
-.lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;max-height:300px;overflow-y:auto;}
-.lang-btn{padding:5px 8px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--text);font-size:11px;cursor:pointer;text-align:left;transition:.2s;font-family:'Syne',sans-serif;}
-.lang-btn:hover,.lang-btn.active{background:var(--cyan);color:#060b18;border-color:var(--cyan);}
+#gt-box::-webkit-scrollbar{width:4px;}
+#gt-box::-webkit-scrollbar-thumb{background:var(--border2);}
 </style>
 </head>
 <body>
 
+<!-- PARTICLES -->
 <div id="particles"></div>
 
-<!-- LOADER -->
+<!-- LOADING SCREEN -->
 <div id="tarma-loader">
-  <div class="tl-corner"></div><div class="tr-corner"></div><div class="bl-corner"></div><div class="br-corner"></div>
+  <div class="tl-corner"></div><div class="tr-corner"></div>
+  <div class="bl-corner"></div><div class="br-corner"></div>
   <div style="text-align:center;margin-bottom:32px;">
     <div class="t-ring"><span class="t-inner">AI</span></div>
     <div class="t-name">TARMA 4R AI</div>
@@ -191,45 +201,37 @@ footer{padding:20px;background:var(--header-bg);font-family:'Orbitron',monospace
   <div class="t-owner">Owner &nbsp;|&nbsp; <strong>JEEVAN RAWAT</strong></div>
 </div>
 
-<!-- LOGIN SCREEN -->
-<div id="login-overlay">
-  <div class="lbox">
-    <div class="l-ring"><span>AI</span></div>
-    <div class="l-title">TARMA 4R AI</div>
-    <div class="l-sub">224+ AI Tools &bull; By Jeevan Rawat</div>
+<script>
+(function(){
+  var loader=document.getElementById('tarma-loader');
+  var steps=[
+    {p:10,l:'BOOT SEQUENCE',  m:'&gt; Initializing core modules...'},
+    {p:25,l:'NEURAL LINK',    m:'&gt; Loading AI neural pathways...'},
+    {p:42,l:'DATA SYNC',      m:'&gt; Syncing 224 AI tools database...'},
+    {p:60,l:'SECURITY CHECK', m:'&gt; Running security protocols...'},
+    {p:75,l:'INTERFACE BUILD',m:'&gt; Building HUD interface...'},
+    {p:90,l:'CALIBRATION',    m:'&gt; Calibrating AI engine...'},
+    {p:100,l:'COMPLETE',      m:'&gt; <span style="color:#00ff88">TARMA 4R AI — ONLINE</span>'},
+  ];
+  var i=0;
+  function run(){
+    if(i>=steps.length)return;
+    var s=steps[i++];
+    document.getElementById('tFill').style.width=s.p+'%';
+    document.getElementById('tPct').textContent=s.p+'%';
+    document.getElementById('tLabel').textContent=s.l;
+    document.getElementById('tStatus').innerHTML=s.m;
+    if(s.p===100){
+      setTimeout(function(){loader.classList.add('hidden');},700);
+    } else {
+      setTimeout(run,300+Math.random()*350);
+    }
+  }
+  setTimeout(run,400);
+})();
+</script>
 
-    <!-- ⚠️ CONFIG WARNING - Firebase set nahi hua toh dikhega -->
-    <div class="l-cfg-warn" id="cfg-warn">
-      ⚠️ <strong>Firebase config missing!</strong><br>
-      File mein <code>FIREBASE_CONFIG</code> fill karo — tab Google &amp; Email login kaam karega.<br>
-      <em>Guest login abhi bhi kaam karta hai.</em>
-    </div>
-
-    <div class="l-tabs">
-      <button class="l-tab active" id="tab-login" onclick="switchTab('login')">Login</button>
-      <button class="l-tab" id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
-    </div>
-    <div class="l-err" id="l-err"></div>
-    <input class="l-inp" id="l-email" type="email" placeholder="📧  Email address">
-    <input class="l-inp" id="l-pass" type="password" placeholder="🔒  Password">
-    <button class="l-btn btn-main" id="l-main-btn" onclick="doEmailAuth()">⚡ Login</button>
-    <div class="l-div">YA</div>
-    <button class="l-btn btn-google" onclick="doGoogleLogin()">
-      <svg width="18" height="18" viewBox="0 0 24 24">
-        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-      </svg>
-      Continue with Google
-    </button>
-    <div class="l-div">YA</div>
-    <button class="l-btn btn-guest" onclick="doGuestLogin()">👤 &nbsp;Continue as Guest</button>
-    <div class="l-gid" id="l-gid"></div>
-  </div>
-</div>
-
-<!-- TICKER -->
+<!-- TICKER MARQUEE -->
 <div class="ticker-wrap">
   <div class="ticker">
     <span>ChatGPT</span><span>Claude AI</span><span>Midjourney</span><span>ElevenLabs</span><span>GitHub Copilot</span><span>Runway ML</span><span>Grok AI</span><span>Google Flow</span><span>Gemini</span><span>Perplexity</span><span>Leonardo AI</span><span>HeyGen</span><span>Suno AI</span><span>Cursor AI</span><span>Gamma AI</span><span>Zapier AI</span><span>Canva AI</span><span>Adobe Firefly</span><span>Notion AI</span><span>Synthesia</span>
@@ -237,45 +239,26 @@ footer{padding:20px;background:var(--header-bg);font-family:'Orbitron',monospace
   </div>
 </div>
 
-<!-- TOPBAR -->
+<!-- TOP BAR -->
 <div class="topbar">
-  <div style="position:relative;">
-    <div id="user-bar" onclick="toggleDD()">
-      <div id="ub-av"></div>
-      <div>
-        <div class="u-name" id="ub-name">User</div>
-        <div class="u-badge" id="ub-badge">MEMBER</div>
-      </div>
-    </div>
-    <div id="user-dd">
-      <div class="dd-info">
-        <div id="dd-av"></div>
-        <div>
-          <div class="dd-name" id="dd-name"></div>
-          <div class="dd-email" id="dd-email"></div>
-          <div class="dd-gid" id="dd-gid"></div>
-        </div>
-      </div>
-      <button class="dd-out" onclick="doLogout()">🔴 &nbsp;Sign Out</button>
-    </div>
-  </div>
-  <button class="topbar-btn" onclick="document.getElementById('gt-popup').classList.toggle('open')">🌐</button>
-  <button class="topbar-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
+  <button class="topbar-btn" id="langBtn" title="Translate Language" onclick="document.getElementById('gt-popup').classList.toggle('open')">🌐</button>
+  <button class="topbar-btn" id="themeBtn" title="Toggle Theme" onclick="toggleTheme()">🌙</button>
 </div>
 
-<!-- TRANSLATE -->
+<!-- LANGUAGE POPUP -->
 <div id="gt-popup">
   <div id="gt-box">
     <button id="gt-close" onclick="document.getElementById('gt-popup').classList.remove('open')">✕</button>
     <h3>🌐 SELECT LANGUAGE</h3>
-    <input class="lang-search" placeholder="Search language..." oninput="filterLangs(this.value)">
+    <input class="lang-search" id="langSearch" placeholder="Search language..." oninput="filterLangs(this.value)">
     <div class="lang-grid" id="langGrid"></div>
   </div>
 </div>
 
-<!-- MAIN SITE -->
+<!-- MAIN WEBSITE -->
 <header>⚡ TARMA 4R AI — 1 CLICK AI TOOLS</header>
 <p class="subtitle">224+ AI Tools &bull; One Place &bull; By Jeevan Rawat</p>
+
 <div class="search-wrap"><input id="search" placeholder="Search AI tools..."></div>
 <div class="menu" id="menuBar"></div>
 <div id="count"></div>
@@ -283,495 +266,259 @@ footer{padding:20px;background:var(--header-bg);font-family:'Orbitron',monospace
 
 <footer>MADE BY <span>JEEVAN RAWAT</span> &nbsp;&bull;&nbsp; 224+ AI TOOLS &nbsp;&bull;&nbsp; TARMA 4R AI</footer>
 <div class="social-bar">
-  <a href="https://youtube.com/@jeevanrawat-26?si=5cQGXq10SI87h7ZZ" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:50px;background:#ff0000;color:#fff;font-family:'Orbitron',monospace;font-size:12px;font-weight:700;letter-spacing:2px;text-decoration:none;box-shadow:0 0 18px rgba(255,0,0,0.4);">▶ YOUTUBE</a>
-  <a href="https://whatsapp.com/channel/0029Vb75qe13LdQZ9msJFZ09" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:50px;background:#25d366;color:#fff;font-family:'Orbitron',monospace;font-size:12px;font-weight:700;letter-spacing:2px;text-decoration:none;box-shadow:0 0 18px rgba(37,211,102,0.4);">💬 WHATSAPP</a>
+  <a href="https://youtube.com/@jeevanrawat-26?si=5cQGXq10SI87h7ZZ" target="_blank"
+     style="display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:50px;background:#ff0000;color:#fff;font-family:'Orbitron',monospace;font-size:12px;font-weight:700;letter-spacing:2px;text-decoration:none;box-shadow:0 0 18px rgba(255,0,0,0.4);">
+    ▶ YOUTUBE
+  </a>
+  <a href="https://whatsapp.com/channel/0029Vb75qe13LdQZ9msJFZ09" target="_blank"
+     style="display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:50px;background:#25d366;color:#fff;font-family:'Orbitron',monospace;font-size:12px;font-weight:700;letter-spacing:2px;text-decoration:none;box-shadow:0 0 18px rgba(37,211,102,0.4);">
+    💬 WHATSAPP
+  </a>
 </div>
+
 <button id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
-// ╔══════════════════════════════════════════════════════════════╗
-// ║         FIREBASE CONFIG — YAHAN APNI VALUES DAALO           ║
-// ║  1. console.firebase.google.com jaao                        ║
-// ║  2. Project banao → Web App add karo → Config copy karo     ║
-// ║  3. Neeche khali "" mein apni values paste karo             ║
-// ╚══════════════════════════════════════════════════════════════╝
-const FIREBASE_CONFIG = {
-  apiKey:            "AIzaSyArkZcTy7x81FvBaE_ZTb_Pi5wWzx95rFo",
-  authDomain:        "tarma4r-ai.firebaseapp.com",
-  projectId:         "tarma4r-ai",
-  storageBucket:     "tarma4r-ai.firebasestorage.app",
-  messagingSenderId: "47568891047",
-  appId:             "1:47568891047:web:392693898279f7601b7f82"
-};
-// ══════════════════════════════════════════════════════════════
+const G='https://www.google.com/s2/favicons?domain=';
+const S='&sz=64';
+const gradients=['#00e5ff,#0088ff','#ff2d78,#ff6b9d','#c084fc,#7c3aed','#4ade80,#16a34a','#fbbf24,#f59e0b','#fb923c,#ef4444','#00e5ff,#c084fc','#4ade80,#00e5ff','#2dd4bf,#0d9488','#a78bfa,#7c3aed'];
 
-// Check if config is filled
-const FB_SET = FIREBASE_CONFIG.apiKey.length > 0;
-
-// ===== GUEST ID =====
-function getGuestId() {
-  let g = localStorage.getItem('tarma_gid');
-  if (!g) {
-    const c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let id = 'GUEST-';
-    for (let i = 0; i < 4; i++) id += c[Math.floor(Math.random() * c.length)];
-    id += '-';
-    for (let i = 0; i < 4; i++) id += c[Math.floor(Math.random() * c.length)];
-    localStorage.setItem('tarma_gid', id);
-    g = id;
-  }
-  return g;
-}
-
-// ===== UI HELPERS =====
-let activeTab = 'login';
-function switchTab(t) {
-  activeTab = t;
-  document.getElementById('tab-login').classList.toggle('active', t === 'login');
-  document.getElementById('tab-signup').classList.toggle('active', t === 'signup');
-  document.getElementById('l-main-btn').textContent = t === 'login' ? '⚡ Login' : '🚀 Sign Up';
-  showErr('');
-}
-function showErr(msg) {
-  const e = document.getElementById('l-err');
-  e.textContent = msg;
-  e.style.display = msg ? 'block' : 'none';
-}
-function setBusy(on) {
-  document.querySelectorAll('.l-btn').forEach(b => b.disabled = on);
-}
-
-// ===== FIREBASE LAZY LOAD =====
-let _fb = null;
-async function getFirebase() {
-  if (_fb) return _fb;
-  if (!FB_SET) { showErr('⚠️ Firebase config fill karo pehle.'); return null; }
-  try {
-    const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
-    const {
-      getAuth, signInWithPopup, GoogleAuthProvider,
-      createUserWithEmailAndPassword, signInWithEmailAndPassword,
-      signOut, onAuthStateChanged, signInAnonymously
-    } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
-
-    const app = initializeApp(FIREBASE_CONFIG);
-    const auth = getAuth(app);
-
-    _fb = { auth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, signInAnonymously };
-
-    // Auth state — auto login/logout
-    onAuthStateChanged(auth, user => {
-      if (user) {
-        const u = user.isAnonymous
-          ? { name: getGuestId(), email: '', photo: null, type: 'guest' }
-          : { name: user.displayName || user.email.split('@')[0], email: user.email, photo: user.photoURL, type: 'google' };
-        enterApp(u);
-      } else {
-        showLoginScreen();
-      }
-    });
-
-    return _fb;
-  } catch (e) {
-    showErr('Firebase error: ' + e.message);
-    return null;
-  }
-}
-
-// ===== EMAIL LOGIN / SIGNUP =====
-async function doEmailAuth() {
-  const email = document.getElementById('l-email').value.trim();
-  const pass = document.getElementById('l-pass').value;
-  showErr('');
-  if (!email || !pass) { showErr('Email aur password daalo.'); return; }
-  if (!FB_SET) { showErr('⚠️ FIREBASE_CONFIG fill karo pehle (file ke upar).'); return; }
-  setBusy(true);
-  const fb = await getFirebase();
-  if (!fb) { setBusy(false); return; }
-  try {
-    if (activeTab === 'signup') {
-      if (pass.length < 6) { showErr('Password 6+ characters ka hona chahiye.'); setBusy(false); return; }
-      await fb.createUserWithEmailAndPassword(fb.auth, email, pass);
-    } else {
-      await fb.signInWithEmailAndPassword(fb.auth, email, pass);
-    }
-    // onAuthStateChanged automatically calls enterApp
-  } catch (e) {
-    showErr(fbMsg(e.code));
-  }
-  setBusy(false);
-}
-
-// ===== GOOGLE LOGIN =====
-async function doGoogleLogin() {
-  showErr('');
-  if (!FB_SET) { showErr('⚠️ FIREBASE_CONFIG fill karo pehle (file ke upar).'); return; }
-  setBusy(true);
-  const fb = await getFirebase();
-  if (!fb) { setBusy(false); return; }
-  try {
-    const provider = new fb.GoogleAuthProvider();
-    await fb.signInWithPopup(fb.auth, provider);
-    // onAuthStateChanged handles the rest
-  } catch (e) {
-    showErr(fbMsg(e.code));
-  }
-  setBusy(false);
-}
-
-// ===== GUEST LOGIN =====
-async function doGuestLogin() {
-  showErr('');
-  // Guest always works — Firebase optional
-  if (FB_SET) {
-    setBusy(true);
-    const fb = await getFirebase();
-    if (fb) {
-      try {
-        await fb.signInAnonymously(fb.auth);
-        setBusy(false);
-        return;
-      } catch (e) { /* fallback below */ }
-      setBusy(false);
-    }
-  }
-  // Local guest fallback (no Firebase needed)
-  enterApp({ name: getGuestId(), email: '', photo: null, type: 'guest' });
-}
-
-// ===== LOGOUT =====
-async function doLogout() {
-  if (_fb) { try { await _fb.signOut(_fb.auth); } catch (e) {} }
-  localStorage.removeItem('tarma_session');
-  document.getElementById('user-dd').classList.remove('open');
-  showLoginScreen();
-}
-
-// ===== ENTER APP =====
-function enterApp(user) {
-  localStorage.setItem('tarma_session', JSON.stringify(user));
-  document.getElementById('login-overlay').style.display = 'none';
-
-  // Build user bar
-  const bar = document.getElementById('user-bar');
-  bar.style.display = 'flex';
-  const ini = (user.name || 'U').split(/[\s\-]/)[0].slice(0, 2).toUpperCase();
-  const isGuest = user.type === 'guest';
-  const avHtml = user.photo
-    ? `<img src="${user.photo}" class="u-av">`
-    : `<div class="u-av-f">${isGuest ? '👤' : ini}</div>`;
-  const ddAvHtml = user.photo
-    ? `<img src="${user.photo}" class="dd-av">`
-    : `<div class="dd-av-f">${isGuest ? '👤' : ini}</div>`;
-
-  document.getElementById('ub-av').innerHTML = avHtml;
-  document.getElementById('dd-av').innerHTML = ddAvHtml;
-  document.getElementById('ub-name').textContent = isGuest ? 'Guest' : (user.name || '').split(' ')[0];
-  document.getElementById('ub-badge').textContent = isGuest ? 'GUEST' : 'MEMBER';
-  document.getElementById('dd-name').textContent = isGuest ? 'Guest User' : (user.name || '');
-  document.getElementById('dd-email').textContent = user.email || '';
-  document.getElementById('dd-gid').textContent = isGuest ? 'ID: ' + user.name : '';
-}
-
-function showLoginScreen() {
-  document.getElementById('user-bar').style.display = 'none';
-  document.getElementById('login-overlay').style.display = 'flex';
-}
-
-function toggleDD() { document.getElementById('user-dd').classList.toggle('open'); }
-document.addEventListener('click', e => {
-  const bar = document.getElementById('user-bar');
-  if (bar && !bar.contains(e.target)) document.getElementById('user-dd').classList.remove('open');
-});
-
-// ===== FIREBASE ERROR MESSAGES =====
-function fbMsg(code) {
-  const m = {
-    'auth/email-already-in-use':  'Yeh email pehle se registered hai. Login karo.',
-    'auth/wrong-password':         'Password galat hai.',
-    'auth/user-not-found':         'Account nahi mila. Pehle Sign Up karo.',
-    'auth/invalid-email':          'Sahi email format mein daalo.',
-    'auth/too-many-requests':      'Bahut zyada attempts. Thodi der baad try karo.',
-    'auth/popup-closed-by-user':   'Google login cancel ho gaya.',
-    'auth/popup-blocked':          'Browser ne popup block kiya. Allow karo.',
-    'auth/network-request-failed': 'Internet connection check karo.',
-    'auth/invalid-credential':     'Email ya password galat hai.',
-    'auth/weak-password':          'Password zyada strong banao (6+ chars).',
-    'auth/operation-not-allowed':  'Yeh login method Firebase mein enable nahi hai.',
-  };
-  return m[code] || 'Error: ' + code;
-}
-
-// ===== LOADER =====
-(function () {
-  const steps = [
-    { p: 10, l: 'BOOT SEQUENCE',   m: '&gt; Initializing core modules...' },
-    { p: 25, l: 'NEURAL LINK',     m: '&gt; Loading AI neural pathways...' },
-    { p: 42, l: 'DATA SYNC',       m: '&gt; Syncing 224 AI tools database...' },
-    { p: 60, l: 'SECURITY CHECK',  m: '&gt; Running security protocols...' },
-    { p: 75, l: 'INTERFACE BUILD', m: '&gt; Building HUD interface...' },
-    { p: 90, l: 'CALIBRATION',     m: '&gt; Calibrating AI engine...' },
-    { p: 100, l: 'COMPLETE',       m: '&gt; <span style="color:#00ff88">TARMA 4R AI — ONLINE</span>' }
-  ];
-  let i = 0;
-  function run() {
-    if (i >= steps.length) return;
-    const s = steps[i++];
-    document.getElementById('tFill').style.width = s.p + '%';
-    document.getElementById('tPct').textContent = s.p + '%';
-    document.getElementById('tLabel').textContent = s.l;
-    document.getElementById('tStatus').innerHTML = s.m;
-    if (s.p === 100) {
-      setTimeout(() => {
-        document.getElementById('tarma-loader').classList.add('hidden');
-        // Show config warning if not set
-        if (!FB_SET) document.getElementById('cfg-warn').style.display = 'block';
-        // Check saved session
-        const saved = localStorage.getItem('tarma_session');
-        if (saved) {
-          try { enterApp(JSON.parse(saved)); return; } catch (e) {}
-        }
-        showLoginScreen();
-      }, 700);
-    } else {
-      setTimeout(run, 300 + Math.random() * 350);
-    }
-  }
-  // Show guest ID preview
-  document.getElementById('l-gid').textContent = 'Aapka Guest ID: ' + getGuestId();
-  setTimeout(run, 400);
-})();
-
-// Enter key support
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && document.getElementById('login-overlay').style.display === 'flex') {
-    doEmailAuth();
-  }
-});
-
-// ===== TOOLS DATA =====
-const G = 'https://www.google.com/s2/favicons?domain=', S = '&sz=64';
-const gradients = ['#00e5ff,#0088ff','#ff2d78,#ff6b9d','#c084fc,#7c3aed','#4ade80,#16a34a','#fbbf24,#f59e0b','#fb923c,#ef4444','#00e5ff,#c084fc','#4ade80,#00e5ff','#2dd4bf,#0d9488','#a78bfa,#7c3aed'];
-
-const tools = [
-  {n:"ChatGPT",t:"Popular",u:"https://chat.openai.com",i:G+"openai.com"+S},
-  {n:"Claude",t:"Popular",u:"https://claude.ai",i:G+"claude.ai"+S},
-  {n:"Gemini",t:"Popular",u:"https://gemini.google.com",i:G+"gemini.google.com"+S},
-  {n:"Grok AI",t:"Popular",u:"https://grok.com",i:G+"grok.com"+S},
-  {n:"Google Flow",t:"Popular",u:"https://flow.google",i:G+"flow.google"+S},
-  {n:"Perplexity AI",t:"Popular",u:"https://perplexity.ai",i:G+"perplexity.ai"+S},
-  {n:"Microsoft Copilot",t:"Popular",u:"https://copilot.microsoft.com",i:G+"copilot.microsoft.com"+S},
-  {n:"Jasper AI",t:"Popular",u:"https://jasper.ai",i:G+"jasper.ai"+S},
-  {n:"Copy.ai",t:"Popular",u:"https://copy.ai",i:G+"copy.ai"+S},
-  {n:"Writesonic",t:"Popular",u:"https://writesonic.com",i:G+"writesonic.com"+S},
-  {n:"Rytr",t:"Popular",u:"https://rytr.me",i:G+"rytr.me"+S},
-  {n:"Anyword",t:"Popular",u:"https://anyword.com",i:G+"anyword.com"+S},
-  {n:"Sudowrite",t:"Popular",u:"https://sudowrite.com",i:G+"sudowrite.com"+S},
-  {n:"Wordtune",t:"Popular",u:"https://wordtune.com",i:G+"wordtune.com"+S},
-  {n:"GrammarlyGO",t:"Popular",u:"https://grammarly.com",i:G+"grammarly.com"+S},
-  {n:"QuillBot",t:"Popular",u:"https://quillbot.com",i:G+"quillbot.com"+S},
-  {n:"Hypotenuse AI",t:"Popular",u:"https://hypotenuse.ai",i:G+"hypotenuse.ai"+S},
-  {n:"LongShot AI",t:"Popular",u:"https://longshot.ai",i:G+"longshot.ai"+S},
-  {n:"Scalenut",t:"Popular",u:"https://scalenut.com",i:G+"scalenut.com"+S},
-  {n:"INK AI",t:"Popular",u:"https://inkforall.com",i:G+"inkforall.com"+S},
-  {n:"Peppertype",t:"Popular",u:"https://peppertype.ai",i:G+"peppertype.ai"+S},
-  {n:"ClosersCopy",t:"Popular",u:"https://closerscopy.com",i:G+"closerscopy.com"+S},
-  {n:"Notion AI",t:"Popular",u:"https://notion.so",i:G+"notion.so"+S},
-  {n:"ClickUp AI",t:"Popular",u:"https://clickup.com",i:G+"clickup.com"+S},
-  {n:"Taskade",t:"Popular",u:"https://taskade.com",i:G+"taskade.com"+S},
-  {n:"Mem AI",t:"Popular",u:"https://mem.ai",i:G+"mem.ai"+S},
-  {n:"Otter.ai",t:"Popular",u:"https://otter.ai",i:G+"otter.ai"+S},
-  {n:"Fireflies AI",t:"Popular",u:"https://fireflies.ai",i:G+"fireflies.ai"+S},
-  {n:"Krisp AI",t:"Popular",u:"https://krisp.ai",i:G+"krisp.ai"+S},
-  {n:"Tactiq",t:"Popular",u:"https://tactiq.io",i:G+"tactiq.io"+S},
-  {n:"Supernormal",t:"Popular",u:"https://supernormal.com",i:G+"supernormal.com"+S},
-  {n:"Rewind AI",t:"Popular",u:"https://rewind.ai",i:G+"rewind.ai"+S},
-  {n:"Midjourney",t:"Image",u:"https://midjourney.com",i:G+"midjourney.com"+S},
-  {n:"DALL-E",t:"Image",u:"https://openai.com/dall-e-3",i:G+"openai.com"+S},
-  {n:"Stable Diffusion",t:"Image",u:"https://stability.ai",i:G+"stability.ai"+S},
-  {n:"Leonardo AI",t:"Image",u:"https://leonardo.ai",i:G+"leonardo.ai"+S},
-  {n:"DreamStudio",t:"Image",u:"https://dreamstudio.ai",i:G+"dreamstudio.ai"+S},
-  {n:"Playground AI",t:"Image",u:"https://playgroundai.com",i:G+"playgroundai.com"+S},
-  {n:"NightCafe",t:"Image",u:"https://nightcafe.studio",i:G+"nightcafe.studio"+S},
-  {n:"Artbreeder",t:"Image",u:"https://artbreeder.com",i:G+"artbreeder.com"+S},
-  {n:"Deep Dream Gen.",t:"Image",u:"https://deepdreamgenerator.com",i:G+"deepdreamgenerator.com"+S},
-  {n:"Canva AI",t:"Image",u:"https://canva.com",i:G+"canva.com"+S},
-  {n:"Adobe Firefly",t:"Image",u:"https://firefly.adobe.com",i:G+"adobe.com"+S},
-  {n:"Remove.bg",t:"Image",u:"https://remove.bg",i:G+"remove.bg"+S},
-  {n:"Cleanup.pictures",t:"Image",u:"https://cleanup.pictures",i:G+"cleanup.pictures"+S},
-  {n:"Let's Enhance",t:"Image",u:"https://letsenhance.io",i:G+"letsenhance.io"+S},
-  {n:"Upscale.media",t:"Image",u:"https://upscale.media",i:G+"upscale.media"+S},
-  {n:"PhotoRoom",t:"Image",u:"https://photoroom.com",i:G+"photoroom.com"+S},
-  {n:"Pixlr AI",t:"Image",u:"https://pixlr.com",i:G+"pixlr.com"+S},
-  {n:"Fotor AI",t:"Image",u:"https://fotor.com",i:G+"fotor.com"+S},
-  {n:"Luminar AI",t:"Image",u:"https://skylum.com",i:G+"skylum.com"+S},
-  {n:"Designs AI",t:"Image",u:"https://designs.ai",i:G+"designs.ai"+S},
-  {n:"Runway ML",t:"Video",u:"https://runwayml.com",i:G+"runwayml.com"+S},
-  {n:"Pictory",t:"Video",u:"https://pictory.ai",i:G+"pictory.ai"+S},
-  {n:"Synthesia",t:"Video",u:"https://synthesia.io",i:G+"synthesia.io"+S},
-  {n:"HeyGen",t:"Video",u:"https://heygen.com",i:G+"heygen.com"+S},
-  {n:"Descript",t:"Video",u:"https://descript.com",i:G+"descript.com"+S},
-  {n:"VEED AI",t:"Video",u:"https://veed.io",i:G+"veed.io"+S},
-  {n:"Lumen5",t:"Video",u:"https://lumen5.com",i:G+"lumen5.com"+S},
-  {n:"InVideo AI",t:"Video",u:"https://invideo.io",i:G+"invideo.io"+S},
-  {n:"Kapwing AI",t:"Video",u:"https://kapwing.com",i:G+"kapwing.com"+S},
-  {n:"Opus Clip",t:"Video",u:"https://opus.pro",i:G+"opus.pro"+S},
-  {n:"Wisecut",t:"Video",u:"https://wisecut.video",i:G+"wisecut.video"+S},
-  {n:"Kaiber AI",t:"Video",u:"https://kaiber.ai",i:G+"kaiber.ai"+S},
-  {n:"DeepBrain AI",t:"Video",u:"https://deepbrain.io",i:G+"deepbrain.io"+S},
-  {n:"Colossyan",t:"Video",u:"https://colossyan.com",i:G+"colossyan.com"+S},
-  {n:"Hour One",t:"Video",u:"https://hourone.ai",i:G+"hourone.ai"+S},
-  {n:"Fliki",t:"Video",u:"https://fliki.ai",i:G+"fliki.ai"+S},
-  {n:"Vidyo AI",t:"Video",u:"https://vidyo.ai",i:G+"vidyo.ai"+S},
-  {n:"Tavus",t:"Video",u:"https://tavus.io",i:G+"tavus.io"+S},
-  {n:"D-ID",t:"Video",u:"https://d-id.com",i:G+"d-id.com"+S},
-  {n:"FlexClip AI",t:"Video",u:"https://flexclip.com",i:G+"flexclip.com"+S},
-  {n:"Animoto",t:"Video",u:"https://animoto.com",i:G+"animoto.com"+S},
-  {n:"Steve AI",t:"Video",u:"https://steve.ai",i:G+"steve.ai"+S},
-  {n:"Wave.video",t:"Video",u:"https://wave.video",i:G+"wave.video"+S},
-  {n:"Filmora AI",t:"Video",u:"https://filmora.wondershare.com",i:G+"wondershare.com"+S},
-  {n:"Topaz Video AI",t:"Video",u:"https://topazlabs.com",i:G+"topazlabs.com"+S},
-  {n:"Gling AI",t:"Video",u:"https://gling.ai",i:G+"gling.ai"+S},
-  {n:"Powtoon AI",t:"Video",u:"https://powtoon.com",i:G+"powtoon.com"+S},
-  {n:"Rephrase AI",t:"Video",u:"https://rephrase.ai",i:G+"rephrase.ai"+S},
-  {n:"Movio AI",t:"Video",u:"https://movio.la",i:G+"movio.la"+S},
-  {n:"Raw Shorts",t:"Video",u:"https://rawshorts.com",i:G+"rawshorts.com"+S},
-  {n:"Clipchamp AI",t:"Video",u:"https://clipchamp.com",i:G+"clipchamp.com"+S},
-  {n:"AnimateDiff",t:"Video",u:"https://huggingface.co/guoyww/animatediff",i:G+"huggingface.co"+S},
-  {n:"ElevenLabs",t:"Audio",u:"https://elevenlabs.io",i:G+"elevenlabs.io"+S},
-  {n:"Murf AI",t:"Audio",u:"https://murf.ai",i:G+"murf.ai"+S},
-  {n:"PlayHT",t:"Audio",u:"https://play.ht",i:G+"play.ht"+S},
-  {n:"Resemble AI",t:"Audio",u:"https://resemble.ai",i:G+"resemble.ai"+S},
-  {n:"Lovo AI",t:"Audio",u:"https://lovo.ai",i:G+"lovo.ai"+S},
-  {n:"Speechify",t:"Audio",u:"https://speechify.com",i:G+"speechify.com"+S},
-  {n:"Cleanvoice AI",t:"Audio",u:"https://cleanvoice.ai",i:G+"cleanvoice.ai"+S},
-  {n:"Podcastle",t:"Audio",u:"https://podcastle.ai",i:G+"podcastle.ai"+S},
-  {n:"Audo AI",t:"Audio",u:"https://audo.ai",i:G+"audo.ai"+S},
-  {n:"Adobe Podcast AI",t:"Audio",u:"https://podcast.adobe.com",i:G+"adobe.com"+S},
-  {n:"Synthesys",t:"Audio",u:"https://synthesys.io",i:G+"synthesys.io"+S},
-  {n:"Dubverse",t:"Audio",u:"https://dubverse.ai",i:G+"dubverse.ai"+S},
-  {n:"Descript Audio",t:"Audio",u:"https://descript.com",i:G+"descript.com"+S},
-  {n:"Suno AI",t:"Audio",u:"https://suno.ai",i:G+"suno.ai"+S},
-  {n:"GitHub Copilot",t:"Coding",u:"https://github.com/features/copilot",i:G+"github.com"+S},
-  {n:"Codeium",t:"Coding",u:"https://codeium.com",i:G+"codeium.com"+S},
-  {n:"Tabnine",t:"Coding",u:"https://tabnine.com",i:G+"tabnine.com"+S},
-  {n:"Replit Ghostwriter",t:"Coding",u:"https://replit.com",i:G+"replit.com"+S},
-  {n:"Cursor AI",t:"Coding",u:"https://cursor.sh",i:G+"cursor.sh"+S},
-  {n:"Amazon CodeWhisperer",t:"Coding",u:"https://aws.amazon.com/codewhisperer",i:G+"aws.amazon.com"+S},
-  {n:"Codium AI",t:"Coding",u:"https://codium.ai",i:G+"codium.ai"+S},
-  {n:"Sourcegraph Cody",t:"Coding",u:"https://sourcegraph.com/cody",i:G+"sourcegraph.com"+S},
-  {n:"Mutable AI",t:"Coding",u:"https://mutable.ai",i:G+"mutable.ai"+S},
-  {n:"AskCodi",t:"Coding",u:"https://askcodi.com",i:G+"askcodi.com"+S},
-  {n:"Blackbox AI",t:"Coding",u:"https://blackbox.ai",i:G+"blackbox.ai"+S},
-  {n:"Phind",t:"Coding",u:"https://phind.com",i:G+"phind.com"+S},
-  {n:"DeepCode",t:"Coding",u:"https://snyk.io/platform/deepcode-ai",i:G+"snyk.io"+S},
-  {n:"AlphaCode",t:"Coding",u:"https://alphacode.deepmind.com",i:G+"deepmind.com"+S},
-  {n:"Uizard",t:"Coding",u:"https://uizard.io",i:G+"uizard.io"+S},
-  {n:"TeleportHQ",t:"Coding",u:"https://teleporthq.io",i:G+"teleporthq.io"+S},
-  {n:"Builder AI",t:"Coding",u:"https://builder.ai",i:G+"builder.ai"+S},
-  {n:"Appy Pie AI",t:"Coding",u:"https://appypie.com",i:G+"appypie.com"+S},
-  {n:"Durable AI",t:"Coding",u:"https://durable.co",i:G+"durable.co"+S},
-  {n:"Framer AI",t:"Coding",u:"https://framer.com",i:G+"framer.com"+S},
-  {n:"10Web AI",t:"Coding",u:"https://10web.io",i:G+"10web.io"+S},
-  {n:"Wix AI",t:"Coding",u:"https://wix.com",i:G+"wix.com"+S},
-  {n:"Hostinger AI",t:"Coding",u:"https://hostinger.com",i:G+"hostinger.com"+S},
-  {n:"ZipWP",t:"Coding",u:"https://zipwp.com",i:G+"zipwp.com"+S},
-  {n:"Typedream AI",t:"Coding",u:"https://typedream.com",i:G+"typedream.com"+S},
-  {n:"Butternut AI",t:"Coding",u:"https://butternut.ai",i:G+"butternut.ai"+S},
-  {n:"v0 by Vercel",t:"Coding",u:"https://v0.dev",i:G+"vercel.com"+S},
-  {n:"Bolt.new",t:"Coding",u:"https://bolt.new",i:G+"bolt.new"+S},
-  {n:"Lovable AI",t:"Coding",u:"https://lovable.dev",i:G+"lovable.dev"+S},
-  {n:"Surfer SEO",t:"Marketing",u:"https://surferseo.com",i:G+"surferseo.com"+S},
-  {n:"MarketMuse",t:"Marketing",u:"https://marketmuse.com",i:G+"marketmuse.com"+S},
-  {n:"NeuronWriter",t:"Marketing",u:"https://neuronwriter.com",i:G+"neuronwriter.com"+S},
-  {n:"Frase AI",t:"Marketing",u:"https://frase.io",i:G+"frase.io"+S},
-  {n:"GrowthBar",t:"Marketing",u:"https://growthbarseo.com",i:G+"growthbarseo.com"+S},
-  {n:"Outranking",t:"Marketing",u:"https://outranking.io",i:G+"outranking.io"+S},
-  {n:"Clearscope",t:"Marketing",u:"https://clearscope.io",i:G+"clearscope.io"+S},
-  {n:"SE Ranking AI",t:"Marketing",u:"https://seranking.com",i:G+"seranking.com"+S},
-  {n:"WriterZen",t:"Marketing",u:"https://writerzen.net",i:G+"writerzen.net"+S},
-  {n:"Keyword Insights",t:"Marketing",u:"https://keywordinsights.ai",i:G+"keywordinsights.ai"+S},
-  {n:"Tidio AI",t:"Marketing",u:"https://tidio.com",i:G+"tidio.com"+S},
-  {n:"ManyChat AI",t:"Marketing",u:"https://manychat.com",i:G+"manychat.com"+S},
-  {n:"Drift AI",t:"Marketing",u:"https://drift.com",i:G+"drift.com"+S},
-  {n:"Intercom AI",t:"Marketing",u:"https://intercom.com",i:G+"intercom.com"+S},
-  {n:"Gamma AI",t:"Marketing",u:"https://gamma.app",i:G+"gamma.app"+S},
-  {n:"Decktopus AI",t:"Marketing",u:"https://decktopus.com",i:G+"decktopus.com"+S},
-  {n:"Simplified AI",t:"Marketing",u:"https://simplified.com",i:G+"simplified.com"+S},
-  {n:"Ocoya AI",t:"Marketing",u:"https://ocoya.com",i:G+"ocoya.com"+S},
-  {n:"Predis AI",t:"Marketing",u:"https://predis.ai",i:G+"predis.ai"+S},
-  {n:"FeedHive",t:"Marketing",u:"https://feedhive.io",i:G+"feedhive.io"+S},
-  {n:"Hootsuite AI",t:"Marketing",u:"https://hootsuite.com",i:G+"hootsuite.com"+S},
-  {n:"Buffer AI",t:"Marketing",u:"https://buffer.com",i:G+"buffer.com"+S},
-  {n:"Lately AI",t:"Marketing",u:"https://lately.ai",i:G+"lately.ai"+S},
-  {n:"SocialBee AI",t:"Marketing",u:"https://socialbee.com",i:G+"socialbee.com"+S},
-  {n:"Publer AI",t:"Marketing",u:"https://publer.io",i:G+"publer.io"+S},
-  {n:"Vista Social AI",t:"Marketing",u:"https://vistasocial.com",i:G+"vistasocial.com"+S},
-  {n:"Brand24 AI",t:"Marketing",u:"https://brand24.com",i:G+"brand24.com"+S},
-  {n:"Mention AI",t:"Marketing",u:"https://mention.com",i:G+"mention.com"+S},
-  {n:"Looka AI",t:"Business",u:"https://looka.com",i:G+"looka.com"+S},
-  {n:"LogoAI",t:"Business",u:"https://logoai.com",i:G+"logoai.com"+S},
-  {n:"Brandmark",t:"Business",u:"https://brandmark.io",i:G+"brandmark.io"+S},
-  {n:"Tailor Brands",t:"Business",u:"https://tailorbrands.com",i:G+"tailorbrands.com"+S},
-  {n:"Zyro AI",t:"Business",u:"https://zyro.com",i:G+"zyro.com"+S},
-  {n:"Levity AI",t:"Business",u:"https://levity.ai",i:G+"levity.ai"+S},
-  {n:"Obviously AI",t:"Business",u:"https://obviously.ai",i:G+"obviously.ai"+S},
-  {n:"MonkeyLearn",t:"Business",u:"https://monkeylearn.com",i:G+"monkeylearn.com"+S},
-  {n:"Akkio",t:"Business",u:"https://akkio.com",i:G+"akkio.com"+S},
-  {n:"Poly AI",t:"Business",u:"https://poly.ai",i:G+"poly.ai"+S},
-  {n:"Observe AI",t:"Business",u:"https://observe.ai",i:G+"observe.ai"+S},
-  {n:"Kore AI",t:"Business",u:"https://kore.ai",i:G+"kore.ai"+S},
-  {n:"Snorkel AI",t:"Business",u:"https://snorkel.ai",i:G+"snorkel.ai"+S},
-  {n:"H2O AI",t:"Business",u:"https://h2o.ai",i:G+"h2o.ai"+S},
-  {n:"DataRobot",t:"Business",u:"https://datarobot.com",i:G+"datarobot.com"+S},
-  {n:"RapidMiner",t:"Business",u:"https://rapidminer.com",i:G+"rapidminer.com"+S},
-  {n:"Alteryx AI",t:"Business",u:"https://alteryx.com",i:G+"alteryx.com"+S},
-  {n:"C3 AI",t:"Business",u:"https://c3.ai",i:G+"c3.ai"+S},
-  {n:"Scale AI",t:"Business",u:"https://scale.com",i:G+"scale.com"+S},
-  {n:"Spellbook AI",t:"Legal",u:"https://spellbook.legal",i:G+"spellbook.legal"+S},
-  {n:"Harvey AI",t:"Legal",u:"https://harvey.ai",i:G+"harvey.ai"+S},
-  {n:"DoNotPay",t:"Legal",u:"https://donotpay.com",i:G+"donotpay.com"+S},
-  {n:"Kira AI",t:"Legal",u:"https://kirasystems.com",i:G+"kirasystems.com"+S},
-  {n:"Casetext AI",t:"Legal",u:"https://casetext.com",i:G+"casetext.com"+S},
-  {n:"LawGeex",t:"Legal",u:"https://lawgeex.com",i:G+"lawgeex.com"+S},
-  {n:"Lexion AI",t:"Legal",u:"https://lexion.ai",i:G+"lexion.ai"+S},
-  {n:"Spell AI",t:"Automation",u:"https://spell.ml",i:G+"spell.ml"+S},
-  {n:"Bardeen AI",t:"Automation",u:"https://bardeen.ai",i:G+"bardeen.ai"+S},
-  {n:"Zapier AI",t:"Automation",u:"https://zapier.com",i:G+"zapier.com"+S},
-  {n:"VistaCreate",t:"Thumbnail",u:"https://create.vista.com",i:G+"create.vista.com"+S},
-  {n:"Adobe Express",t:"Thumbnail",u:"https://express.adobe.com",i:G+"adobe.com"+S},
-  {n:"Picsart AI",t:"Thumbnail",u:"https://picsart.com",i:G+"picsart.com"+S},
-  {n:"Snappa",t:"Thumbnail",u:"https://snappa.com",i:G+"snappa.com"+S},
-  {n:"BeFunky",t:"Thumbnail",u:"https://befunky.com",i:G+"befunky.com"+S},
-  {n:"PicMonkey",t:"Thumbnail",u:"https://picmonkey.com",i:G+"picmonkey.com"+S},
-  {n:"Crello",t:"Thumbnail",u:"https://crello.com",i:G+"crello.com"+S},
-  {n:"Thumbnail.ai",t:"Thumbnail",u:"https://thumbnail.ai",i:G+"thumbnail.ai"+S},
-  {n:"Khan Academy AI",t:"Study",u:"https://khanacademy.org",i:G+"khanacademy.org"+S},
-  {n:"Quizlet AI",t:"Study",u:"https://quizlet.com",i:G+"quizlet.com"+S},
-  {n:"Socratic",t:"Study",u:"https://socratic.org",i:G+"socratic.org"+S},
-  {n:"Wolfram Alpha",t:"Study",u:"https://wolframalpha.com",i:G+"wolframalpha.com"+S},
-  {n:"Brainly",t:"Study",u:"https://brainly.com",i:G+"brainly.com"+S},
-  {n:"Photomath",t:"Study",u:"https://photomath.com",i:G+"photomath.com"+S},
-  {n:"Mathway",t:"Study",u:"https://mathway.com",i:G+"mathway.com"+S},
-  {n:"Coursera AI",t:"Study",u:"https://coursera.org",i:G+"coursera.org"+S},
-  {n:"Duolingo",t:"Study",u:"https://duolingo.com",i:G+"duolingo.com"+S},
-  {n:"Anki AI",t:"Study",u:"https://ankiweb.net",i:G+"ankiweb.net"+S},
-  {n:"NotebookLM",t:"Study",u:"https://notebooklm.google",i:G+"google.com"+S},
-  {n:"ChatPDF",t:"Study",u:"https://chatpdf.com",i:G+"chatpdf.com"+S},
-  {n:"Consensus",t:"Study",u:"https://consensus.app",i:G+"consensus.app"+S},
-  {n:"Elicit",t:"Study",u:"https://elicit.org",i:G+"elicit.org"+S},
-  {n:"Semantic Scholar",t:"Study",u:"https://semanticscholar.org",i:G+"semanticscholar.org"+S},
-  {n:"Scite AI",t:"Study",u:"https://scite.ai",i:G+"scite.ai"+S},
+const tools=[
+{n:"ChatGPT",t:"Popular",u:"https://chat.openai.com",i:G+"openai.com"+S},
+{n:"Claude",t:"Popular",u:"https://claude.ai",i:G+"claude.ai"+S},
+{n:"Gemini",t:"Popular",u:"https://gemini.google.com",i:G+"gemini.google.com"+S},
+{n:"Grok AI",t:"Popular",u:"https://grok.com",i:G+"grok.com"+S},
+{n:"Google Flow",t:"Popular",u:"https://flow.google",i:G+"flow.google"+S},
+{n:"Perplexity AI",t:"Popular",u:"https://perplexity.ai",i:G+"perplexity.ai"+S},
+{n:"Microsoft Copilot",t:"Popular",u:"https://copilot.microsoft.com",i:G+"copilot.microsoft.com"+S},
+{n:"Jasper AI",t:"Popular",u:"https://jasper.ai",i:G+"jasper.ai"+S},
+{n:"Copy.ai",t:"Popular",u:"https://copy.ai",i:G+"copy.ai"+S},
+{n:"Writesonic",t:"Popular",u:"https://writesonic.com",i:G+"writesonic.com"+S},
+{n:"Rytr",t:"Popular",u:"https://rytr.me",i:G+"rytr.me"+S},
+{n:"Anyword",t:"Popular",u:"https://anyword.com",i:G+"anyword.com"+S},
+{n:"Sudowrite",t:"Popular",u:"https://sudowrite.com",i:G+"sudowrite.com"+S},
+{n:"Wordtune",t:"Popular",u:"https://wordtune.com",i:G+"wordtune.com"+S},
+{n:"GrammarlyGO",t:"Popular",u:"https://grammarly.com",i:G+"grammarly.com"+S},
+{n:"QuillBot",t:"Popular",u:"https://quillbot.com",i:G+"quillbot.com"+S},
+{n:"Hypotenuse AI",t:"Popular",u:"https://hypotenuse.ai",i:G+"hypotenuse.ai"+S},
+{n:"LongShot AI",t:"Popular",u:"https://longshot.ai",i:G+"longshot.ai"+S},
+{n:"Scalenut",t:"Popular",u:"https://scalenut.com",i:G+"scalenut.com"+S},
+{n:"INK AI",t:"Popular",u:"https://inkforall.com",i:G+"inkforall.com"+S},
+{n:"Peppertype",t:"Popular",u:"https://peppertype.ai",i:G+"peppertype.ai"+S},
+{n:"ClosersCopy",t:"Popular",u:"https://closerscopy.com",i:G+"closerscopy.com"+S},
+{n:"Notion AI",t:"Popular",u:"https://notion.so",i:G+"notion.so"+S},
+{n:"ClickUp AI",t:"Popular",u:"https://clickup.com",i:G+"clickup.com"+S},
+{n:"Taskade",t:"Popular",u:"https://taskade.com",i:G+"taskade.com"+S},
+{n:"Mem AI",t:"Popular",u:"https://mem.ai",i:G+"mem.ai"+S},
+{n:"Otter.ai",t:"Popular",u:"https://otter.ai",i:G+"otter.ai"+S},
+{n:"Fireflies AI",t:"Popular",u:"https://fireflies.ai",i:G+"fireflies.ai"+S},
+{n:"Krisp AI",t:"Popular",u:"https://krisp.ai",i:G+"krisp.ai"+S},
+{n:"Tactiq",t:"Popular",u:"https://tactiq.io",i:G+"tactiq.io"+S},
+{n:"Supernormal",t:"Popular",u:"https://supernormal.com",i:G+"supernormal.com"+S},
+{n:"Rewind AI",t:"Popular",u:"https://rewind.ai",i:G+"rewind.ai"+S},
+{n:"Midjourney",t:"Image",u:"https://midjourney.com",i:G+"midjourney.com"+S},
+{n:"DALL-E",t:"Image",u:"https://openai.com/dall-e-3",i:G+"openai.com"+S},
+{n:"Stable Diffusion",t:"Image",u:"https://stability.ai",i:G+"stability.ai"+S},
+{n:"Leonardo AI",t:"Image",u:"https://leonardo.ai",i:G+"leonardo.ai"+S},
+{n:"DreamStudio",t:"Image",u:"https://dreamstudio.ai",i:G+"dreamstudio.ai"+S},
+{n:"Playground AI",t:"Image",u:"https://playgroundai.com",i:G+"playgroundai.com"+S},
+{n:"NightCafe",t:"Image",u:"https://nightcafe.studio",i:G+"nightcafe.studio"+S},
+{n:"Artbreeder",t:"Image",u:"https://artbreeder.com",i:G+"artbreeder.com"+S},
+{n:"Deep Dream Gen.",t:"Image",u:"https://deepdreamgenerator.com",i:G+"deepdreamgenerator.com"+S},
+{n:"Canva AI",t:"Image",u:"https://canva.com",i:G+"canva.com"+S},
+{n:"Adobe Firefly",t:"Image",u:"https://firefly.adobe.com",i:G+"adobe.com"+S},
+{n:"Remove.bg",t:"Image",u:"https://remove.bg",i:G+"remove.bg"+S},
+{n:"Cleanup.pictures",t:"Image",u:"https://cleanup.pictures",i:G+"cleanup.pictures"+S},
+{n:"Let's Enhance",t:"Image",u:"https://letsenhance.io",i:G+"letsenhance.io"+S},
+{n:"Upscale.media",t:"Image",u:"https://upscale.media",i:G+"upscale.media"+S},
+{n:"PhotoRoom",t:"Image",u:"https://photoroom.com",i:G+"photoroom.com"+S},
+{n:"Pixlr AI",t:"Image",u:"https://pixlr.com",i:G+"pixlr.com"+S},
+{n:"Fotor AI",t:"Image",u:"https://fotor.com",i:G+"fotor.com"+S},
+{n:"Luminar AI",t:"Image",u:"https://skylum.com",i:G+"skylum.com"+S},
+{n:"Designs AI",t:"Image",u:"https://designs.ai",i:G+"designs.ai"+S},
+{n:"Runway ML",t:"Video",u:"https://runwayml.com",i:G+"runwayml.com"+S},
+{n:"Pictory",t:"Video",u:"https://pictory.ai",i:G+"pictory.ai"+S},
+{n:"Synthesia",t:"Video",u:"https://synthesia.io",i:G+"synthesia.io"+S},
+{n:"HeyGen",t:"Video",u:"https://heygen.com",i:G+"heygen.com"+S},
+{n:"Descript",t:"Video",u:"https://descript.com",i:G+"descript.com"+S},
+{n:"VEED AI",t:"Video",u:"https://veed.io",i:G+"veed.io"+S},
+{n:"Lumen5",t:"Video",u:"https://lumen5.com",i:G+"lumen5.com"+S},
+{n:"InVideo AI",t:"Video",u:"https://invideo.io",i:G+"invideo.io"+S},
+{n:"Kapwing AI",t:"Video",u:"https://kapwing.com",i:G+"kapwing.com"+S},
+{n:"Opus Clip",t:"Video",u:"https://opus.pro",i:G+"opus.pro"+S},
+{n:"Wisecut",t:"Video",u:"https://wisecut.video",i:G+"wisecut.video"+S},
+{n:"Runway Gen-2",t:"Video",u:"https://runwayml.com",i:G+"runwayml.com"+S},
+{n:"Kaiber AI",t:"Video",u:"https://kaiber.ai",i:G+"kaiber.ai"+S},
+{n:"DeepBrain AI",t:"Video",u:"https://deepbrain.io",i:G+"deepbrain.io"+S},
+{n:"Colossyan",t:"Video",u:"https://colossyan.com",i:G+"colossyan.com"+S},
+{n:"Hour One",t:"Video",u:"https://hourone.ai",i:G+"hourone.ai"+S},
+{n:"Fliki",t:"Video",u:"https://fliki.ai",i:G+"fliki.ai"+S},
+{n:"Vidyo AI",t:"Video",u:"https://vidyo.ai",i:G+"vidyo.ai"+S},
+{n:"Tavus",t:"Video",u:"https://tavus.io",i:G+"tavus.io"+S},
+{n:"D-ID",t:"Video",u:"https://d-id.com",i:G+"d-id.com"+S},
+{n:"Magisto",t:"Video",u:"https://magisto.com",i:G+"magisto.com"+S},
+{n:"FlexClip AI",t:"Video",u:"https://flexclip.com",i:G+"flexclip.com"+S},
+{n:"Animoto",t:"Video",u:"https://animoto.com",i:G+"animoto.com"+S},
+{n:"Steve AI",t:"Video",u:"https://steve.ai",i:G+"steve.ai"+S},
+{n:"Wave.video",t:"Video",u:"https://wave.video",i:G+"wave.video"+S},
+{n:"Filmora AI",t:"Video",u:"https://filmora.wondershare.com",i:G+"wondershare.com"+S},
+{n:"Topaz Video AI",t:"Video",u:"https://topazlabs.com",i:G+"topazlabs.com"+S},
+{n:"Gling AI",t:"Video",u:"https://gling.ai",i:G+"gling.ai"+S},
+{n:"Powtoon AI",t:"Video",u:"https://powtoon.com",i:G+"powtoon.com"+S},
+{n:"Rephrase AI",t:"Video",u:"https://rephrase.ai",i:G+"rephrase.ai"+S},
+{n:"Movio AI",t:"Video",u:"https://movio.la",i:G+"movio.la"+S},
+{n:"Raw Shorts",t:"Video",u:"https://rawshorts.com",i:G+"rawshorts.com"+S},
+{n:"Clipchamp AI",t:"Video",u:"https://clipchamp.com",i:G+"clipchamp.com"+S},
+{n:"GliaCloud",t:"Video",u:"https://gliacloud.com",i:G+"gliacloud.com"+S},
+{n:"AnimateDiff",t:"Video",u:"https://huggingface.co/guoyww/animatediff",i:G+"huggingface.co"+S},
+{n:"ElevenLabs",t:"Audio",u:"https://elevenlabs.io",i:G+"elevenlabs.io"+S},
+{n:"Murf AI",t:"Audio",u:"https://murf.ai",i:G+"murf.ai"+S},
+{n:"PlayHT",t:"Audio",u:"https://play.ht",i:G+"play.ht"+S},
+{n:"Resemble AI",t:"Audio",u:"https://resemble.ai",i:G+"resemble.ai"+S},
+{n:"Lovo AI",t:"Audio",u:"https://lovo.ai",i:G+"lovo.ai"+S},
+{n:"Speechify",t:"Audio",u:"https://speechify.com",i:G+"speechify.com"+S},
+{n:"Cleanvoice AI",t:"Audio",u:"https://cleanvoice.ai",i:G+"cleanvoice.ai"+S},
+{n:"Podcastle",t:"Audio",u:"https://podcastle.ai",i:G+"podcastle.ai"+S},
+{n:"Audo AI",t:"Audio",u:"https://audo.ai",i:G+"audo.ai"+S},
+{n:"Adobe Podcast AI",t:"Audio",u:"https://podcast.adobe.com",i:G+"adobe.com"+S},
+{n:"Synthesys",t:"Audio",u:"https://synthesys.io",i:G+"synthesys.io"+S},
+{n:"Dubverse",t:"Audio",u:"https://dubverse.ai",i:G+"dubverse.ai"+S},
+{n:"Descript Audio",t:"Audio",u:"https://descript.com",i:G+"descript.com"+S},
+{n:"Suno AI",t:"Audio",u:"https://suno.ai",i:G+"suno.ai"+S},
+{n:"GitHub Copilot",t:"Coding",u:"https://github.com/features/copilot",i:G+"github.com"+S},
+{n:"Codeium",t:"Coding",u:"https://codeium.com",i:G+"codeium.com"+S},
+{n:"Tabnine",t:"Coding",u:"https://tabnine.com",i:G+"tabnine.com"+S},
+{n:"Replit Ghostwriter",t:"Coding",u:"https://replit.com",i:G+"replit.com"+S},
+{n:"Cursor AI",t:"Coding",u:"https://cursor.sh",i:G+"cursor.sh"+S},
+{n:"Amazon CodeWhisperer",t:"Coding",u:"https://aws.amazon.com/codewhisperer",i:G+"aws.amazon.com"+S},
+{n:"Codium AI",t:"Coding",u:"https://codium.ai",i:G+"codium.ai"+S},
+{n:"Sourcegraph Cody",t:"Coding",u:"https://sourcegraph.com/cody",i:G+"sourcegraph.com"+S},
+{n:"Mutable AI",t:"Coding",u:"https://mutable.ai",i:G+"mutable.ai"+S},
+{n:"AskCodi",t:"Coding",u:"https://askcodi.com",i:G+"askcodi.com"+S},
+{n:"Blackbox AI",t:"Coding",u:"https://blackbox.ai",i:G+"blackbox.ai"+S},
+{n:"Phind",t:"Coding",u:"https://phind.com",i:G+"phind.com"+S},
+{n:"DeepCode",t:"Coding",u:"https://snyk.io/platform/deepcode-ai",i:G+"snyk.io"+S},
+{n:"AlphaCode",t:"Coding",u:"https://alphacode.deepmind.com",i:G+"deepmind.com"+S},
+{n:"Debuild",t:"Coding",u:"https://debuild.app",i:G+"debuild.app"+S},
+{n:"Uizard",t:"Coding",u:"https://uizard.io",i:G+"uizard.io"+S},
+{n:"TeleportHQ",t:"Coding",u:"https://teleporthq.io",i:G+"teleporthq.io"+S},
+{n:"Builder AI",t:"Coding",u:"https://builder.ai",i:G+"builder.ai"+S},
+{n:"Appy Pie AI",t:"Coding",u:"https://appypie.com",i:G+"appypie.com"+S},
+{n:"Durable AI",t:"Coding",u:"https://durable.co",i:G+"durable.co"+S},
+{n:"Framer AI",t:"Coding",u:"https://framer.com",i:G+"framer.com"+S},
+{n:"10Web AI",t:"Coding",u:"https://10web.io",i:G+"10web.io"+S},
+{n:"Wix AI",t:"Coding",u:"https://wix.com",i:G+"wix.com"+S},
+{n:"Hostinger AI",t:"Coding",u:"https://hostinger.com",i:G+"hostinger.com"+S},
+{n:"ZipWP",t:"Coding",u:"https://zipwp.com",i:G+"zipwp.com"+S},
+{n:"Typedream AI",t:"Coding",u:"https://typedream.com",i:G+"typedream.com"+S},
+{n:"Butternut AI",t:"Coding",u:"https://butternut.ai",i:G+"butternut.ai"+S},
+{n:"v0 by Vercel",t:"Coding",u:"https://v0.dev",i:G+"vercel.com"+S},
+{n:"Bolt.new",t:"Coding",u:"https://bolt.new",i:G+"bolt.new"+S},
+{n:"Lovable AI",t:"Coding",u:"https://lovable.dev",i:G+"lovable.dev"+S},
+{n:"Surfer SEO",t:"Marketing",u:"https://surferseo.com",i:G+"surferseo.com"+S},
+{n:"MarketMuse",t:"Marketing",u:"https://marketmuse.com",i:G+"marketmuse.com"+S},
+{n:"NeuronWriter",t:"Marketing",u:"https://neuronwriter.com",i:G+"neuronwriter.com"+S},
+{n:"Frase AI",t:"Marketing",u:"https://frase.io",i:G+"frase.io"+S},
+{n:"GrowthBar",t:"Marketing",u:"https://growthbarseo.com",i:G+"growthbarseo.com"+S},
+{n:"Outranking",t:"Marketing",u:"https://outranking.io",i:G+"outranking.io"+S},
+{n:"Clearscope",t:"Marketing",u:"https://clearscope.io",i:G+"clearscope.io"+S},
+{n:"SE Ranking AI",t:"Marketing",u:"https://seranking.com",i:G+"seranking.com"+S},
+{n:"WriterZen",t:"Marketing",u:"https://writerzen.net",i:G+"writerzen.net"+S},
+{n:"Keyword Insights",t:"Marketing",u:"https://keywordinsights.ai",i:G+"keywordinsights.ai"+S},
+{n:"Tidio AI",t:"Marketing",u:"https://tidio.com",i:G+"tidio.com"+S},
+{n:"ManyChat AI",t:"Marketing",u:"https://manychat.com",i:G+"manychat.com"+S},
+{n:"Drift AI",t:"Marketing",u:"https://drift.com",i:G+"drift.com"+S},
+{n:"Intercom AI",t:"Marketing",u:"https://intercom.com",i:G+"intercom.com"+S},
+{n:"Freshchat AI",t:"Marketing",u:"https://freshworks.com",i:G+"freshworks.com"+S},
+{n:"Ada AI",t:"Marketing",u:"https://ada.cx",i:G+"ada.cx"+S},
+{n:"LivePerson AI",t:"Marketing",u:"https://liveperson.com",i:G+"liveperson.com"+S},
+{n:"Chatfuel AI",t:"Marketing",u:"https://chatfuel.com",i:G+"chatfuel.com"+S},
+{n:"Botpress AI",t:"Marketing",u:"https://botpress.com",i:G+"botpress.com"+S},
+{n:"Landbot AI",t:"Marketing",u:"https://landbot.io",i:G+"landbot.io"+S},
+{n:"Beautiful AI",t:"Marketing",u:"https://beautiful.ai",i:G+"beautiful.ai"+S},
+{n:"Tome AI",t:"Marketing",u:"https://tome.app",i:G+"tome.app"+S},
+{n:"Gamma AI",t:"Marketing",u:"https://gamma.app",i:G+"gamma.app"+S},
+{n:"Decktopus AI",t:"Marketing",u:"https://decktopus.com",i:G+"decktopus.com"+S},
+{n:"Slides AI",t:"Marketing",u:"https://slidesai.io",i:G+"slidesai.io"+S},
+{n:"Presentations AI",t:"Marketing",u:"https://presentations.ai",i:G+"presentations.ai"+S},
+{n:"Pitch AI",t:"Marketing",u:"https://pitch.com",i:G+"pitch.com"+S},
+{n:"Visme AI",t:"Marketing",u:"https://visme.co",i:G+"visme.co"+S},
+{n:"Simplified AI",t:"Marketing",u:"https://simplified.com",i:G+"simplified.com"+S},
+{n:"Ocoya AI",t:"Marketing",u:"https://ocoya.com",i:G+"ocoya.com"+S},
+{n:"Predis AI",t:"Marketing",u:"https://predis.ai",i:G+"predis.ai"+S},
+{n:"FeedHive",t:"Marketing",u:"https://feedhive.io",i:G+"feedhive.io"+S},
+{n:"Hootsuite AI",t:"Marketing",u:"https://hootsuite.com",i:G+"hootsuite.com"+S},
+{n:"Buffer AI",t:"Marketing",u:"https://buffer.com",i:G+"buffer.com"+S},
+{n:"Lately AI",t:"Marketing",u:"https://lately.ai",i:G+"lately.ai"+S},
+{n:"SocialBee AI",t:"Marketing",u:"https://socialbee.com",i:G+"socialbee.com"+S},
+{n:"Publer AI",t:"Marketing",u:"https://publer.io",i:G+"publer.io"+S},
+{n:"Vista Social AI",t:"Marketing",u:"https://vistasocial.com",i:G+"vistasocial.com"+S},
+{n:"Brand24 AI",t:"Marketing",u:"https://brand24.com",i:G+"brand24.com"+S},
+{n:"Mention AI",t:"Marketing",u:"https://mention.com",i:G+"mention.com"+S},
+{n:"Looka AI",t:"Business",u:"https://looka.com",i:G+"looka.com"+S},
+{n:"LogoAI",t:"Business",u:"https://logoai.com",i:G+"logoai.com"+S},
+{n:"Brandmark",t:"Business",u:"https://brandmark.io",i:G+"brandmark.io"+S},
+{n:"Tailor Brands",t:"Business",u:"https://tailorbrands.com",i:G+"tailorbrands.com"+S},
+{n:"Zyro AI",t:"Business",u:"https://zyro.com",i:G+"zyro.com"+S},
+{n:"Levity AI",t:"Business",u:"https://levity.ai",i:G+"levity.ai"+S},
+{n:"Obviously AI",t:"Business",u:"https://obviously.ai",i:G+"obviously.ai"+S},
+{n:"MonkeyLearn",t:"Business",u:"https://monkeylearn.com",i:G+"monkeylearn.com"+S},
+{n:"Akkio",t:"Business",u:"https://akkio.com",i:G+"akkio.com"+S},
+{n:"Poly AI",t:"Business",u:"https://poly.ai",i:G+"poly.ai"+S},
+{n:"Observe AI",t:"Business",u:"https://observe.ai",i:G+"observe.ai"+S},
+{n:"Kore AI",t:"Business",u:"https://kore.ai",i:G+"kore.ai"+S},
+{n:"Snorkel AI",t:"Business",u:"https://snorkel.ai",i:G+"snorkel.ai"+S},
+{n:"H2O AI",t:"Business",u:"https://h2o.ai",i:G+"h2o.ai"+S},
+{n:"DataRobot",t:"Business",u:"https://datarobot.com",i:G+"datarobot.com"+S},
+{n:"RapidMiner",t:"Business",u:"https://rapidminer.com",i:G+"rapidminer.com"+S},
+{n:"Alteryx AI",t:"Business",u:"https://alteryx.com",i:G+"alteryx.com"+S},
+{n:"C3 AI",t:"Business",u:"https://c3.ai",i:G+"c3.ai"+S},
+{n:"Scale AI",t:"Business",u:"https://scale.com",i:G+"scale.com"+S},
+{n:"Spellbook AI",t:"Legal",u:"https://spellbook.legal",i:G+"spellbook.legal"+S},
+{n:"Harvey AI",t:"Legal",u:"https://harvey.ai",i:G+"harvey.ai"+S},
+{n:"DoNotPay",t:"Legal",u:"https://donotpay.com",i:G+"donotpay.com"+S},
+{n:"Kira AI",t:"Legal",u:"https://kirasystems.com",i:G+"kirasystems.com"+S},
+{n:"Casetext AI",t:"Legal",u:"https://casetext.com",i:G+"casetext.com"+S},
+{n:"LawGeex",t:"Legal",u:"https://lawgeex.com",i:G+"lawgeex.com"+S},
+{n:"Lexion AI",t:"Legal",u:"https://lexion.ai",i:G+"lexion.ai"+S},
+{n:"Spell AI",t:"Automation",u:"https://spell.ml",i:G+"spell.ml"+S},
+{n:"Bardeen AI",t:"Automation",u:"https://bardeen.ai",i:G+"bardeen.ai"+S},
+{n:"Zapier AI",t:"Automation",u:"https://zapier.com",i:G+"zapier.com"+S},
+{n:"VistaCreate",t:"Thumbnail",u:"https://create.vista.com",i:G+"create.vista.com"+S},
+{n:"Adobe Express",t:"Thumbnail",u:"https://express.adobe.com",i:G+"adobe.com"+S},
+{n:"Picsart AI",t:"Thumbnail",u:"https://picsart.com",i:G+"picsart.com"+S},
+{n:"Snappa",t:"Thumbnail",u:"https://snappa.com",i:G+"snappa.com"+S},
+{n:"BeFunky",t:"Thumbnail",u:"https://befunky.com",i:G+"befunky.com"+S},
+{n:"PicMonkey",t:"Thumbnail",u:"https://picmonkey.com",i:G+"picmonkey.com"+S},
+{n:"Crello",t:"Thumbnail",u:"https://crello.com",i:G+"crello.com"+S},
+{n:"Thumbnail.ai",t:"Thumbnail",u:"https://thumbnail.ai",i:G+"thumbnail.ai"+S},
+{n:"Khan Academy AI",t:"Study",u:"https://khanacademy.org",i:G+"khanacademy.org"+S},
+{n:"Quizlet AI",t:"Study",u:"https://quizlet.com",i:G+"quizlet.com"+S},
+{n:"Socratic",t:"Study",u:"https://socratic.org",i:G+"socratic.org"+S},
+{n:"Wolfram Alpha",t:"Study",u:"https://wolframalpha.com",i:G+"wolframalpha.com"+S},
+{n:"Brainly",t:"Study",u:"https://brainly.com",i:G+"brainly.com"+S},
+{n:"Photomath",t:"Study",u:"https://photomath.com",i:G+"photomath.com"+S},
+{n:"Mathway",t:"Study",u:"https://mathway.com",i:G+"mathway.com"+S},
+{n:"Coursera AI",t:"Study",u:"https://coursera.org",i:G+"coursera.org"+S},
+{n:"Duolingo",t:"Study",u:"https://duolingo.com",i:G+"duolingo.com"+S},
+{n:"Anki AI",t:"Study",u:"https://ankiweb.net",i:G+"ankiweb.net"+S},
+{n:"NotebookLM",t:"Study",u:"https://notebooklm.google",i:G+"google.com"+S},
+{n:"ChatPDF",t:"Study",u:"https://chatpdf.com",i:G+"chatpdf.com"+S},
+{n:"Consensus",t:"Study",u:"https://consensus.app",i:G+"consensus.app"+S},
+{n:"Elicit",t:"Study",u:"https://elicit.org",i:G+"elicit.org"+S},
+{n:"Semantic Scholar",t:"Study",u:"https://semanticscholar.org",i:G+"semanticscholar.org"+S},
+{n:"Scite AI",t:"Study",u:"https://scite.ai",i:G+"scite.ai"+S},
 ];
 
-const cats = [
+const cats=[
   {k:'All',e:''},{k:'Popular',e:'⭐'},{k:'Image',e:'🎨'},{k:'Video',e:'🎬'},
   {k:'Audio',e:'🎵'},{k:'Coding',e:'💻'},{k:'Marketing',e:'📈'},{k:'Business',e:'💼'},
   {k:'Legal',e:'⚖️'},{k:'Automation',e:'🤖'},{k:'Thumbnail',e:'🖼️'},{k:'Study',e:'📚'},
 ];
-const tagClass = {Popular:'popular',Image:'image',Video:'video',Audio:'audio',Coding:'coding',Marketing:'marketing',Business:'business',Legal:'legal',Automation:'automation',Thumbnail:'thumbnail',Study:'study'};
-const languages = [
-  {n:"English",c:"en"},{n:"Hindi",c:"hi"},{n:"Mandarin Chinese",c:"zh-CN"},{n:"Spanish",c:"es"},
+const tagClass={Popular:'popular',Image:'image',Video:'video',Audio:'audio',Coding:'coding',Marketing:'marketing',Business:'business',Legal:'legal',Automation:'automation',Thumbnail:'thumbnail',Study:'study'};
+
+const languages=[
+  {n:"English",c:"en"},{n:"Mandarin Chinese",c:"zh-CN"},{n:"Hindi",c:"hi"},{n:"Spanish",c:"es"},
   {n:"French",c:"fr"},{n:"Arabic",c:"ar"},{n:"Bengali",c:"bn"},{n:"Portuguese",c:"pt"},
   {n:"Russian",c:"ru"},{n:"Urdu",c:"ur"},{n:"Indonesian",c:"id"},{n:"German",c:"de"},
   {n:"Japanese",c:"ja"},{n:"Punjabi",c:"pa"},{n:"Marathi",c:"mr"},{n:"Telugu",c:"te"},
@@ -779,51 +526,65 @@ const languages = [
   {n:"Italian",c:"it"},{n:"Thai",c:"th"},{n:"Gujarati",c:"gu"},{n:"Persian",c:"fa"},
   {n:"Polish",c:"pl"},{n:"Malayalam",c:"ml"},{n:"Kannada",c:"kn"},{n:"Odia",c:"or"},
   {n:"Ukrainian",c:"uk"},{n:"Dutch",c:"nl"},{n:"Romanian",c:"ro"},{n:"Greek",c:"el"},
-  {n:"Swedish",c:"sv"},{n:"Hebrew",c:"he"},{n:"Danish",c:"da"},{n:"Finnish",c:"fi"},
-  {n:"Norwegian",c:"no"},{n:"Swahili",c:"sw"},{n:"Tagalog",c:"tl"},{n:"Nepali",c:"ne"},
-  {n:"Kazakh",c:"kk"},{n:"Uzbek",c:"uz"},{n:"Mongolian",c:"mn"},{n:"Armenian",c:"hy"},
-  {n:"Georgian",c:"ka"},{n:"Albanian",c:"sq"},{n:"Croatian",c:"hr"},{n:"Serbian",c:"sr"},
-  {n:"Bulgarian",c:"bg"},{n:"Slovak",c:"sk"},{n:"Catalan",c:"ca"},{n:"Welsh",c:"cy"},
-  {n:"Irish",c:"ga"},{n:"Icelandic",c:"is"},{n:"Maori",c:"mi"},{n:"Haitian Creole",c:"ht"},
-  {n:"Zulu",c:"zu"},{n:"Amharic",c:"am"},{n:"Yoruba",c:"yo"},{n:"Igbo",c:"ig"},{n:"Hausa",c:"ha"},
+  {n:"Czech",c:"cs"},{n:"Swedish",c:"sv"},{n:"Hungarian",c:"hu"},{n:"Hebrew",c:"he"},
+  {n:"Danish",c:"da"},{n:"Finnish",c:"fi"},{n:"Norwegian",c:"no"},{n:"Slovak",c:"sk"},
+  {n:"Croatian",c:"hr"},{n:"Serbian",c:"sr"},{n:"Bulgarian",c:"bg"},{n:"Lithuanian",c:"lt"},
+  {n:"Latvian",c:"lv"},{n:"Estonian",c:"et"},{n:"Swahili",c:"sw"},{n:"Zulu",c:"zu"},
+  {n:"Xhosa",c:"xh"},{n:"Afrikaans",c:"af"},{n:"Somali",c:"so"},{n:"Amharic",c:"am"},
+  {n:"Hausa",c:"ha"},{n:"Yoruba",c:"yo"},{n:"Igbo",c:"ig"},{n:"Tagalog",c:"tl"},
+  {n:"Khmer",c:"km"},{n:"Lao",c:"lo"},{n:"Burmese",c:"my"},{n:"Nepali",c:"ne"},
+  {n:"Sinhala",c:"si"},{n:"Pashto",c:"ps"},{n:"Kazakh",c:"kk"},{n:"Uzbek",c:"uz"},
+  {n:"Turkmen",c:"tk"},{n:"Mongolian",c:"mn"},{n:"Tibetan",c:"bo"},{n:"Uyghur",c:"ug"},
+  {n:"Kurdish",c:"ku"},{n:"Azerbaijani",c:"az"},{n:"Armenian",c:"hy"},{n:"Georgian",c:"ka"},
+  {n:"Albanian",c:"sq"},{n:"Macedonian",c:"mk"},{n:"Slovenian",c:"sl"},{n:"Bosnian",c:"bs"},
+  {n:"Catalan",c:"ca"},{n:"Galician",c:"gl"},{n:"Basque",c:"eu"},{n:"Quechua",c:"qu"},
+  {n:"Aymara",c:"ay"},{n:"Guarani",c:"gn"},{n:"Maori",c:"mi"},{n:"Samoan",c:"sm"},
+  {n:"Fijian",c:"fj"},{n:"Haitian Creole",c:"ht"},{n:"Malagasy",c:"mg"},{n:"Kinyarwanda",c:"rw"},
+  {n:"Tigrinya",c:"ti"},{n:"Luxembourgish",c:"lb"},{n:"Icelandic",c:"is"},{n:"Irish",c:"ga"},
+  {n:"Scottish Gaelic",c:"gd"},{n:"Welsh",c:"cy"},{n:"Cornish",c:"kw"},{n:"Breton",c:"br"},
+  {n:"Sardinian",c:"sc"},{n:"Frisian",c:"fy"},{n:"Occitan",c:"oc"},{n:"Hmong",c:"hmn"},
 ];
 
-function getInitials(n) { return n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase(); }
-function getGrad(n) { return gradients[n.charCodeAt(0) % gradients.length]; }
-function getFavs() { try { return JSON.parse(localStorage.getItem('tarma_favs')||'[]'); } catch { return []; } }
-function setFavs(a) { localStorage.setItem('tarma_favs', JSON.stringify(a)); }
+function getInitials(name){return name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();}
+function getGrad(name){return gradients[name.charCodeAt(0)%gradients.length];}
+function getFavs(){try{return JSON.parse(localStorage.getItem('tarma_favs')||'[]');}catch{return[];}}
+function setFavs(a){localStorage.setItem('tarma_favs',JSON.stringify(a));}
 
-function buildMenu() {
-  const mb = document.getElementById('menuBar');
-  cats.forEach(c => {
-    const count = c.k==='All' ? tools.length : tools.filter(x=>x.t===c.k).length;
-    const btn = document.createElement('button');
-    btn.innerHTML = (c.e?c.e+' ':'')+c.k+'<span class="badge">'+count+'</span>';
-    if (c.k==='All') btn.classList.add('active');
-    btn.onclick = () => filterTools(c.k, btn);
+function buildMenu(){
+  const mb=document.getElementById('menuBar');
+  cats.forEach(c=>{
+    const count=c.k==='All'?tools.length:tools.filter(x=>x.t===c.k).length;
+    const btn=document.createElement('button');
+    btn.innerHTML=(c.e?c.e+' ':'')+c.k+'<span class="badge">'+count+'</span>';
+    if(c.k==='All')btn.classList.add('active');
+    btn.onclick=()=>filterTools(c.k,btn);
     mb.appendChild(btn);
   });
-  const fb = document.createElement('button');
-  fb.innerHTML = '❤️ Saved<span class="badge" id="favBadge">'+getFavs().length+'</span>';
-  fb.onclick = () => filterTools('__favs__', fb);
+  const fb=document.createElement('button');
+  fb.id='favTab';
+  fb.innerHTML='❤️ Saved<span class="badge" id="favBadge">'+getFavs().length+'</span>';
+  fb.onclick=()=>filterTools('__favs__',fb);
   mb.appendChild(fb);
 }
 
-function show(list) {
-  const c = document.getElementById('tools');
-  document.getElementById('count').textContent = list.length + ' tools found';
-  c.innerHTML = '';
-  if (!list.length) { c.innerHTML = '<div class="no-results">No tools found 🤖</div>'; return; }
-  const favs = getFavs();
-  list.forEach(x => {
-    const d = document.createElement('div'); d.className = 'card';
-    const tc = tagClass[x.t]||'popular';
-    const te = cats.find(c=>c.k===x.t)?.e||'';
-    const g = getGrad(x.n), ini = getInitials(x.n);
-    const uid = 'i'+Math.random().toString(36).substr(2,7);
-    const fid = 'f'+Math.random().toString(36).substr(2,7);
-    const isFav = favs.includes(x.n);
-    d.innerHTML = `<button class="fav-btn${isFav?' active':''}" onclick="toggleFav('${x.n}',this)">${isFav?'❤️':'🤍'}</button>
+function show(list){
+  const c=document.getElementById("tools");
+  document.getElementById("count").textContent=list.length+" tools found";
+  c.innerHTML="";
+  if(!list.length){c.innerHTML='<div class="no-results">No tools found 🤖</div>';return;}
+  const favs=getFavs();
+  list.forEach(x=>{
+    const d=document.createElement("div");
+    d.className="card";
+    const tc=tagClass[x.t]||'popular';
+    const te=cats.find(c=>c.k===x.t)?.e||'';
+    const g=getGrad(x.n);
+    const ini=getInitials(x.n);
+    const uid='i'+Math.random().toString(36).substr(2,7);
+    const fid='f'+Math.random().toString(36).substr(2,7);
+    const isFav=favs.includes(x.n);
+    d.innerHTML=`
+      <button class="fav-btn${isFav?' active':''}" onclick="toggleFav('${x.n}',this)" title="Save">${isFav?'❤️':'🤍'}</button>
       <div class="logo-wrap">
         <img id="${uid}" src="${x.i}" alt="${x.n}" width="40" height="40"
           onerror="document.getElementById('${uid}').style.display='none';document.getElementById('${fid}').style.display='flex';">
@@ -832,69 +593,87 @@ function show(list) {
       <h3>${x.n}</h3>
       <span class="tag tag-${tc}">${te} ${x.t}</span>
       <div class="rating">★★★★☆</div>
-      <button class="openbtn" onclick="window.open('${x.u}','_blank')">Open →</button>`;
+      <button class="openbtn" onclick="window.open('${x.u}','_blank')">Open →</button>
+    `;
     c.appendChild(d);
   });
 }
 
-function toggleFav(name, btn) {
-  let favs = getFavs();
-  if (favs.includes(name)) { favs = favs.filter(f=>f!==name); btn.textContent='🤍'; btn.classList.remove('active'); }
-  else { favs.push(name); btn.textContent='❤️'; btn.classList.add('active'); }
+function toggleFav(name,btn){
+  let favs=getFavs();
+  if(favs.includes(name)){favs=favs.filter(f=>f!==name);btn.textContent='🤍';btn.classList.remove('active');}
+  else{favs.push(name);btn.textContent='❤️';btn.classList.add('active');}
   setFavs(favs);
-  document.getElementById('favBadge').textContent = favs.length;
-  if (currentFilter==='__favs__') applyFilters('__favs__', document.getElementById('search').value.toLowerCase());
+  document.getElementById('favBadge').textContent=favs.length;
+  if(currentFilter==='__favs__') applyFilters('__favs__',document.getElementById("search").value.toLowerCase());
 }
 
-let currentFilter = 'All';
-function filterTools(type, btn) {
-  currentFilter = type;
-  document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  applyFilters(type, document.getElementById('search').value.toLowerCase());
+let currentFilter='All';
+function filterTools(type,btn){
+  currentFilter=type;
+  document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  applyFilters(type,document.getElementById("search").value.toLowerCase());
 }
-function applyFilters(type, q) {
-  let list = tools;
-  if (type==='__favs__') { const favs=getFavs(); list=tools.filter(x=>favs.includes(x.n)); }
-  else if (type!=='All') { list = list.filter(x=>x.t===type); }
-  if (q) list = list.filter(x=>x.n.toLowerCase().includes(q));
+function applyFilters(type,q){
+  let list=tools;
+  if(type==='__favs__'){const favs=getFavs();list=tools.filter(x=>favs.includes(x.n));}
+  else if(type!=='All'){list=list.filter(x=>x.t===type);}
+  if(q)list=list.filter(x=>x.n.toLowerCase().includes(q));
   show(list);
 }
-document.getElementById('search').addEventListener('input', function() { applyFilters(currentFilter, this.value.toLowerCase()); });
-
-function toggleTheme() {
-  const h = document.documentElement; const d = h.getAttribute('data-theme')==='dark';
-  h.setAttribute('data-theme', d?'light':'dark');
-  document.getElementById('themeBtn').textContent = d?'☀️':'🌙';
-}
-window.addEventListener('scroll', () => {
-  const b = document.getElementById('backTop');
-  window.scrollY > 400 ? b.classList.add('show') : b.classList.remove('show');
+document.getElementById("search").addEventListener("input",function(){
+  applyFilters(currentFilter,this.value.toLowerCase());
 });
 
-(function() {
-  const c = document.getElementById('particles');
-  const cols = ['#00e5ff','#7c3aed','#ff2d78','#4ade80','#fbbf24'];
-  for (let i=0; i<30; i++) {
-    const p = document.createElement('div'); p.className = 'particle';
-    const s = Math.random()*4+1;
-    p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;background:${cols[Math.floor(Math.random()*cols.length)]};animation-duration:${8+Math.random()*12}s;animation-delay:${Math.random()*10}s;`;
-    c.appendChild(p);
+function toggleTheme(){
+  const html=document.documentElement;
+  const isDark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('themeBtn').textContent=isDark?'☀️':'🌙';
+}
+
+window.addEventListener('scroll',()=>{
+  const btn=document.getElementById('backTop');
+  if(window.scrollY>400)btn.classList.add('show');
+  else btn.classList.remove('show');
+});
+
+(function(){
+  const container=document.getElementById('particles');
+  const colors=['#00e5ff','#7c3aed','#ff2d78','#4ade80','#fbbf24'];
+  for(let i=0;i<30;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    const size=Math.random()*4+1;
+    p.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${8+Math.random()*12}s;animation-delay:${Math.random()*10}s;`;
+    container.appendChild(p);
   }
 })();
 
-function buildLangGrid(filter='') {
-  const grid = document.getElementById('langGrid'); grid.innerHTML = '';
-  const f = filter ? languages.filter(l=>l.n.toLowerCase().includes(filter.toLowerCase())) : languages;
-  const cur = localStorage.getItem('tarma_lang')||'en';
-  f.forEach(lang => {
-    const btn = document.createElement('button'); btn.className='lang-btn'+(lang.c===cur?' active':''); btn.textContent=lang.n;
-    btn.onclick = () => { localStorage.setItem('tarma_lang',lang.c); window.open(`https://translate.google.com/translate?sl=auto&tl=${lang.c}&u=${encodeURIComponent(location.href)}`,'_blank'); document.getElementById('gt-popup').classList.remove('open'); };
+function buildLangGrid(filter=''){
+  const grid=document.getElementById('langGrid');
+  grid.innerHTML='';
+  const filtered=filter?languages.filter(l=>l.n.toLowerCase().includes(filter.toLowerCase())):languages;
+  const curLang=localStorage.getItem('tarma_lang')||'en';
+  filtered.forEach(lang=>{
+    const btn=document.createElement('button');
+    btn.className='lang-btn'+(lang.c===curLang?' active':'');
+    btn.textContent=lang.n;
+    btn.onclick=()=>{
+      localStorage.setItem('tarma_lang',lang.c);
+      const url=`https://translate.google.com/translate?sl=auto&tl=${lang.c}&u=${encodeURIComponent(location.href)}`;
+      window.open(url,'_blank');
+      document.getElementById('gt-popup').classList.remove('open');
+      document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    };
     grid.appendChild(btn);
   });
 }
-function filterLangs(v) { buildLangGrid(v); }
+function filterLangs(v){buildLangGrid(v);}
 buildLangGrid();
+
 buildMenu();
 show(tools);
 </script>
