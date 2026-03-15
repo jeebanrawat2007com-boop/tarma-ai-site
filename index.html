@@ -6,6 +6,50 @@
 <title>TARMA 4R AI - Free AI Tools Website</title>
 <meta name="google-site-verification" content="iCXtIfV9mgg0SBcfZ5zYhu4a8ci18JV-0AS7PZd9_oA" />
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Syne:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged }
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  // ⚠️ APNA FIREBASE CONFIG YAHAN DAALO
+  const firebaseConfig = {
+    apiKey: "AIzaSyDEMO_ReplaceWithYourKey",
+    authDomain: "your-project.firebaseapp.com",
+    projectId: "your-project",
+    storageBucket: "your-project.appspot.com",
+    messagingSenderId: "000000000000",
+    appId: "1:000000000000:web:abcdef1234567890"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  window.__tarmaSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      window.__tarmaOnLogin(user);
+    } catch (e) {
+      console.error("Sign-in error:", e);
+      alert("Sign-in failed: " + e.message);
+    }
+  };
+
+  window.__tarmaSignOut = async () => {
+    await signOut(auth);
+    location.reload();
+  };
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      window.__tarmaOnLogin(user);
+    }
+  });
+</script>
+
 <style>
 /* ===== LOADING SCREEN ===== */
 #tarma-loader{position:fixed;inset:0;background:#020c14;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;font-family:'Share Tech Mono',monospace;color:#00f5ff;transition:opacity 1.2s ease,visibility 1.2s ease;}
@@ -33,6 +77,166 @@
 .t-owner{position:absolute;bottom:24px;font-size:10px;letter-spacing:3px;color:rgba(0,245,255,0.35);text-transform:uppercase;}
 .t-owner strong{color:rgba(0,245,255,0.7);}
 
+/* ===== LOGIN SCREEN ===== */
+#login-screen{
+  position:fixed;inset:0;background:#020c14;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:8888;font-family:'Syne',sans-serif;
+  transition:opacity 0.8s ease,visibility 0.8s ease;
+}
+#login-screen::before{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);
+  background-size:50px 50px;
+}
+#login-screen.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+
+.login-card{
+  position:relative;z-index:1;
+  background:linear-gradient(135deg,rgba(0,20,40,0.95),rgba(0,10,30,0.98));
+  border:1px solid rgba(0,229,255,0.25);
+  border-radius:24px;
+  padding:44px 40px 36px;
+  width:min(420px,92vw);
+  text-align:center;
+  box-shadow:0 0 80px rgba(0,229,255,0.08), 0 0 0 1px rgba(0,229,255,0.06);
+  backdrop-filter:blur(20px);
+}
+.login-card::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:60%;height:1px;
+  background:linear-gradient(90deg,transparent,#00e5ff,transparent);
+}
+
+.login-logo-ring{
+  width:80px;height:80px;border-radius:50%;
+  border:2px solid rgba(0,229,255,0.5);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 20px;position:relative;
+  box-shadow:0 0 30px rgba(0,229,255,0.15);
+  animation:tspin 10s linear infinite;
+}
+.login-logo-ring::before{
+  content:'';position:absolute;width:60px;height:60px;
+  border-radius:50%;border:1px dashed rgba(0,229,255,0.3);
+  animation:tspinrev 6s linear infinite;
+}
+.login-logo-inner{
+  font-family:'Orbitron',monospace;font-size:18px;font-weight:900;
+  color:#00e5ff;text-shadow:0 0 16px #00e5ff;
+  animation:tspinrev 10s linear infinite;
+}
+
+.login-title{
+  font-family:'Orbitron',monospace;font-size:clamp(18px,4vw,26px);
+  font-weight:900;letter-spacing:4px;
+  background:linear-gradient(90deg,#00e5ff,#ff2d78);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:6px;
+}
+.login-sub{
+  font-size:11px;letter-spacing:3px;color:rgba(0,229,255,0.4);
+  margin-bottom:28px;text-transform:uppercase;
+}
+.login-desc{
+  font-size:13px;color:rgba(200,216,240,0.5);
+  margin-bottom:28px;line-height:1.6;
+}
+
+/* Google Sign-In Button */
+.google-btn{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  width:100%;padding:14px 24px;
+  border-radius:50px;
+  background:rgba(255,255,255,0.06);
+  border:1.5px solid rgba(255,255,255,0.15);
+  color:#fff;font-family:'Syne',sans-serif;font-size:14px;font-weight:600;
+  cursor:pointer;transition:all 0.3s ease;letter-spacing:0.05em;
+  position:relative;overflow:hidden;
+}
+.google-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(66,133,244,0.15),rgba(234,67,53,0.08));
+  opacity:0;transition:opacity 0.3s;
+}
+.google-btn:hover{
+  border-color:rgba(66,133,244,0.6);
+  box-shadow:0 0 20px rgba(66,133,244,0.2);
+  transform:translateY(-1px);
+}
+.google-btn:hover::before{opacity:1;}
+.google-btn:active{transform:translateY(0);}
+
+.google-icon{width:20px;height:20px;flex-shrink:0;}
+
+/* Guest button */
+.guest-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:11px 24px;margin-top:12px;
+  border-radius:50px;background:transparent;
+  border:1px solid rgba(0,229,255,0.2);
+  color:rgba(0,229,255,0.6);font-family:'Syne',sans-serif;
+  font-size:13px;cursor:pointer;transition:all 0.3s ease;letter-spacing:0.05em;
+}
+.guest-btn:hover{
+  border-color:rgba(0,229,255,0.5);color:#00e5ff;
+  background:rgba(0,229,255,0.05);
+}
+
+.login-divider{
+  display:flex;align-items:center;gap:12px;margin:16px 0 4px;
+}
+.login-divider span{font-size:11px;color:rgba(200,216,240,0.3);letter-spacing:2px;}
+.login-divider::before,.login-divider::after{
+  content:'';flex:1;height:1px;background:rgba(255,255,255,0.06);
+}
+
+.login-footer{
+  margin-top:24px;font-size:10px;color:rgba(200,216,240,0.25);
+  letter-spacing:1px;line-height:1.8;
+}
+
+/* Floating orbs behind login */
+.login-orb{
+  position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;
+}
+.login-orb-1{width:300px;height:300px;background:rgba(0,100,255,0.06);top:-80px;left:-60px;}
+.login-orb-2{width:200px;height:200px;background:rgba(255,45,120,0.06);bottom:-40px;right:-40px;}
+
+/* ===== USER AVATAR in Topbar ===== */
+.user-avatar-wrap{
+  display:flex;align-items:center;gap:8px;
+  padding:4px 12px 4px 6px;
+  border-radius:50px;
+  border:1.5px solid var(--border2);
+  background:var(--search-bg);
+  cursor:pointer;
+  position:relative;
+}
+.user-avatar{width:28px;height:28px;border-radius:50%;object-fit:cover;border:2px solid var(--cyan);}
+.user-name{font-size:12px;font-family:'Syne',sans-serif;color:var(--text);max-width:100px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.user-dropdown{
+  position:absolute;top:44px;right:0;
+  background:var(--card);border:1px solid var(--border2);
+  border-radius:14px;padding:8px;min-width:180px;
+  display:none;z-index:200;
+  box-shadow:0 10px 40px rgba(0,0,0,0.5);
+}
+.user-dropdown.open{display:block;}
+.user-dropdown-email{
+  font-size:11px;color:var(--subtext);padding:8px 10px 10px;
+  border-bottom:1px solid var(--border);margin-bottom:4px;
+  word-break:break-all;text-align:left;
+}
+.user-dropdown-item{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 10px;border-radius:8px;border:none;
+  background:transparent;color:var(--text);font-family:'Syne',sans-serif;
+  font-size:12px;cursor:pointer;width:100%;text-align:left;transition:.2s;
+}
+.user-dropdown-item:hover{background:rgba(255,45,120,0.1);color:#ff2d78;}
+
 /* ===== THEME VARIABLES ===== */
 [data-theme="dark"]{
   --bg:#060b18;--card:#0d1a2e;--card2:#0f2040;
@@ -40,7 +244,8 @@
   --text:#c8d8f0;--subtext:rgba(200,216,240,0.4);
   --border:rgba(255,255,255,0.04);--border2:rgba(0,229,255,0.35);
   --search-bg:rgba(0,229,255,0.06);--header-bg:rgba(0,0,0,0.5);
-  --body-bg:radial-gradient(ellipse 80% 40% at 50% -10%,rgba(0,229,255,.13) 0%,transparent 70%),radial-gradient(ellipse 60% 30% at 80% 100%,rgba(255,45,120,.08) 0%,transparent 70%);
+  --body-bg:radial-gradient(ellipse 80% 40% at 50% -10%,rgba(0,229,255,.13) 0%,transparent 70%),
+    radial-gradient(ellipse 60% 30% at 80% 100%,rgba(255,45,120,.08) 0%,transparent 70%);
 }
 [data-theme="light"]{
   --bg:#f0f4ff;--card:#fff;--card2:#e8f0ff;
@@ -48,7 +253,8 @@
   --text:#1a2340;--subtext:rgba(26,35,64,0.5);
   --border:rgba(0,0,0,0.07);--border2:rgba(0,119,204,0.4);
   --search-bg:rgba(0,119,204,0.06);--header-bg:rgba(240,244,255,0.9);
-  --body-bg:radial-gradient(ellipse 80% 40% at 50% -10%,rgba(0,119,204,.08) 0%,transparent 70%),radial-gradient(ellipse 60% 30% at 80% 100%,rgba(224,0,94,.05) 0%,transparent 70%);
+  --body-bg:radial-gradient(ellipse 80% 40% at 50% -10%,rgba(0,119,204,.08) 0%,transparent 70%),
+    radial-gradient(ellipse 60% 30% at 80% 100%,rgba(224,0,94,.05) 0%,transparent 70%);
 }
 
 /* ===== PARTICLES ===== */
@@ -69,10 +275,8 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);text-a
 
 /* ===== TOP BAR ===== */
 .topbar{position:relative;z-index:20;display:flex;justify-content:flex-end;align-items:center;padding:10px 18px;gap:10px;}
-.topbar-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border2);background:var(--search-bg);color:var(--text);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:.25s;position:relative;}
+.topbar-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border2);background:var(--search-bg);color:var(--text);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:.25s;}
 .topbar-btn:hover{background:var(--cyan);color:#060b18;border-color:var(--cyan);}
-
-/* 3-dot menu */
 .dot-menu-wrap{position:relative;}
 .dot-menu-panel{position:absolute;top:44px;right:0;background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:14px;min-width:260px;max-height:400px;overflow-y:auto;display:none;z-index:100;box-shadow:0 10px 40px rgba(0,0,0,.5);}
 .dot-menu-panel.open{display:block;}
@@ -103,19 +307,8 @@ header{padding:10px 20px 10px;font-family:'Orbitron',monospace;font-size:clamp(1
 .menu button.active .badge{background:rgba(0,0,0,.2);color:#060b18;}
 #count{font-size:12px;color:var(--subtext);margin-bottom:10px;letter-spacing:.3em;position:relative;z-index:10;}
 
-/* ===== CARDS GRID — HAMESHA 2 COLUMNS ===== */
-.container{
-  display:grid;
-  grid-template-columns:repeat(2, 1fr); /* ✅ FIXED: Hamesha 2 columns */
-  gap:14px;
-  padding:10px 14px 30px;
-  max-width:1400px;
-  margin:0 auto;
-  position:relative;
-  z-index:10;
-}
-
-/* Large screens pe 3-4 columns */
+/* ===== CARDS GRID ===== */
+.container{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;padding:10px 14px 30px;max-width:1400px;margin:0 auto;position:relative;z-index:10;}
 @media(min-width:600px){.container{grid-template-columns:repeat(3,1fr);}}
 @media(min-width:900px){.container{grid-template-columns:repeat(4,1fr);}}
 @media(min-width:1200px){.container{grid-template-columns:repeat(5,1fr);}}
@@ -124,12 +317,9 @@ header{padding:10px 20px 10px;font-family:'Orbitron',monospace;font-size:clamp(1
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),transparent);opacity:0;transition:.3s;}
 .card:hover{background:var(--card2);transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.4);border-color:rgba(0,229,255,.2);}
 .card:hover::before{opacity:1;}
-
-/* Favourite button */
 .fav-btn{position:absolute;top:9px;right:9px;background:none;border:none;cursor:pointer;font-size:15px;line-height:1;opacity:.4;transition:.2s;padding:2px;}
 .fav-btn:hover{opacity:1;transform:scale(1.2);}
 .fav-btn.active{opacity:1;}
-
 .logo-wrap{width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;overflow:hidden;}
 .logo-wrap img{width:40px;height:40px;object-fit:contain;border-radius:8px;}
 .logo-fallback{width:40px;height:40px;border-radius:8px;display:none;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:12px;font-weight:900;color:white;}
@@ -159,8 +349,6 @@ footer{padding:20px;background:var(--header-bg);font-family:'Orbitron',monospace
 #backTop{position:fixed;bottom:24px;right:20px;width:44px;height:44px;border-radius:50%;border:1.5px solid var(--border2);background:var(--card);color:var(--cyan);font-size:18px;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:50;transition:.3s;box-shadow:0 4px 20px rgba(0,0,0,.4);}
 #backTop:hover{background:var(--cyan);color:#060b18;}
 #backTop.show{display:flex;}
-
-/* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar{width:5px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
@@ -175,7 +363,22 @@ footer{padding:20px;background:var(--header-bg);font-family:'Orbitron',monospace
 .lang-search{width:100%;padding:8px 14px;border-radius:30px;border:1px solid var(--border2);background:var(--search-bg);color:var(--text);font-family:'Syne',sans-serif;font-size:13px;outline:none;margin-bottom:10px;}
 .lang-search::placeholder{color:var(--subtext);}
 #gt-box::-webkit-scrollbar{width:4px;}
-#gt-box::-webkit-scrollbar-thumb{background:var(--border2);}
+#gt-box::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+
+/* Welcome toast */
+.welcome-toast{
+  position:fixed;top:70px;right:16px;z-index:500;
+  background:var(--card);border:1px solid rgba(0,229,255,0.3);
+  border-radius:14px;padding:12px 16px;
+  display:flex;align-items:center;gap:10px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.4);
+  animation:slideIn 0.4s ease;
+  max-width:260px;
+}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+.welcome-toast img{width:32px;height:32px;border-radius:50%;border:2px solid var(--cyan);}
+.welcome-toast-text{font-size:11px;color:var(--text);text-align:left;line-height:1.5;}
+.welcome-toast-text strong{color:var(--cyan);display:block;font-size:12px;}
 </style>
 </head>
 <body>
@@ -201,7 +404,93 @@ footer{padding:20px;background:var(--header-bg);font-family:'Orbitron',monospace
   <div class="t-owner">Owner &nbsp;|&nbsp; <strong>JEEVAN RAWAT</strong></div>
 </div>
 
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-orb login-orb-1"></div>
+  <div class="login-orb login-orb-2"></div>
+  <div class="login-card">
+    <div class="login-logo-ring"><span class="login-logo-inner">AI</span></div>
+    <div class="login-title">TARMA 4R AI</div>
+    <div class="login-sub">Advanced Intelligence System</div>
+    <p class="login-desc">224+ AI tools ek hi jagah. Sign in karke apne saved tools aur preferences access karo.</p>
+
+    <button class="google-btn" onclick="window.__tarmaSignIn()">
+      <svg class="google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      Google se Sign In karo
+    </button>
+
+    <div class="login-divider"><span>YA</span></div>
+
+    <button class="guest-btn" onclick="continueAsGuest()">
+      👤 Guest ke roop mein continue karo
+    </button>
+
+    <div class="login-footer">
+      Sign in karke aap hamare Terms of Service aur<br>
+      Privacy Policy se agree karte hain.<br><br>
+      © 2024 TARMA 4R AI · By Jeevan Rawat
+    </div>
+  </div>
+</div>
+
+<!-- LANGUAGE POPUP -->
+<div id="gt-popup">
+  <div id="gt-box">
+    <button id="gt-close" onclick="document.getElementById('gt-popup').classList.remove('open')">✕</button>
+    <h3>🌐 SELECT LANGUAGE</h3>
+    <input class="lang-search" id="langSearch" placeholder="Search language..." oninput="filterLangs(this.value)">
+    <div class="lang-grid" id="langGrid"></div>
+  </div>
+</div>
+
+<!-- MAIN WEBSITE (hidden until login) -->
+<div id="main-site" style="display:none;">
+
+  <!-- TICKER MARQUEE -->
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <span>ChatGPT</span><span>Claude AI</span><span>Midjourney</span><span>ElevenLabs</span><span>GitHub Copilot</span><span>Runway ML</span><span>Grok AI</span><span>Google Flow</span><span>Gemini</span><span>Perplexity</span><span>Leonardo AI</span><span>HeyGen</span><span>Suno AI</span><span>Cursor AI</span><span>Gamma AI</span><span>Zapier AI</span><span>Canva AI</span><span>Adobe Firefly</span><span>Notion AI</span><span>Synthesia</span>
+      <span>ChatGPT</span><span>Claude AI</span><span>Midjourney</span><span>ElevenLabs</span><span>GitHub Copilot</span><span>Runway ML</span><span>Grok AI</span><span>Google Flow</span><span>Gemini</span><span>Perplexity</span><span>Leonardo AI</span><span>HeyGen</span><span>Suno AI</span><span>Cursor AI</span><span>Gamma AI</span><span>Zapier AI</span><span>Canva AI</span><span>Adobe Firefly</span><span>Notion AI</span><span>Synthesia</span>
+    </div>
+  </div>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <button class="topbar-btn" id="langBtn" title="Translate Language" onclick="document.getElementById('gt-popup').classList.toggle('open')">🌐</button>
+    <button class="topbar-btn" id="themeBtn" title="Toggle Theme" onclick="toggleTheme()">🌙</button>
+    <!-- User info / sign-in btn -->
+    <div id="userArea"></div>
+  </div>
+
+  <header>⚡ TARMA 4R AI — 1 CLICK AI TOOLS</header>
+  <p class="subtitle">224+ AI Tools &bull; One Place &bull; By Jeevan Rawat</p>
+  <div class="search-wrap"><input id="search" placeholder="Search AI tools..."></div>
+  <div class="menu" id="menuBar"></div>
+  <div id="count"></div>
+  <div class="container" id="tools"></div>
+
+  <footer>MADE BY <span>JEEVAN RAWAT</span> &nbsp;&bull;&nbsp; 224+ AI TOOLS &nbsp;&bull;&nbsp; TARMA 4R AI</footer>
+  <div class="social-bar">
+    <a href="https://youtube.com/@jeevanrawat-26?si=5cQGXq10SI87h7ZZ" target="_blank"
+       style="display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:50px;background:#ff0000;color:#fff;font-family:'Orbitron',monospace;font-size:12px;font-weight:700;letter-spacing:2px;text-decoration:none;box-shadow:0 0 18px rgba(255,0,0,0.4);">
+      ▶ YOUTUBE
+    </a>
+    <a href="https://whatsapp.com/channel/0029Vb75qe13LdQZ9msJFZ09" target="_blank"
+       style="display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:50px;background:#25d366;color:#fff;font-family:'Orbitron',monospace;font-size:12px;font-weight:700;letter-spacing:2px;text-decoration:none;box-shadow:0 0 18px rgba(37,211,102,0.4);">
+      💬 WHATSAPP
+    </a>
+  </div>
+</div>
+
+<button id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
 <script>
+// ===== LOADING SCREEN =====
 (function(){
   var loader=document.getElementById('tarma-loader');
   var steps=[
@@ -222,63 +511,112 @@ footer{padding:20px;background:var(--header-bg);font-family:'Orbitron',monospace
     document.getElementById('tLabel').textContent=s.l;
     document.getElementById('tStatus').innerHTML=s.m;
     if(s.p===100){
-      setTimeout(function(){loader.classList.add('hidden');},700);
+      setTimeout(function(){
+        loader.classList.add('hidden');
+        // Show login screen after loading
+        showLoginScreen();
+      },700);
     } else {
       setTimeout(run,300+Math.random()*350);
     }
   }
   setTimeout(run,400);
 })();
-</script>
 
-<!-- TICKER MARQUEE -->
-<div class="ticker-wrap">
-  <div class="ticker">
-    <span>ChatGPT</span><span>Claude AI</span><span>Midjourney</span><span>ElevenLabs</span><span>GitHub Copilot</span><span>Runway ML</span><span>Grok AI</span><span>Google Flow</span><span>Gemini</span><span>Perplexity</span><span>Leonardo AI</span><span>HeyGen</span><span>Suno AI</span><span>Cursor AI</span><span>Gamma AI</span><span>Zapier AI</span><span>Canva AI</span><span>Adobe Firefly</span><span>Notion AI</span><span>Synthesia</span>
-    <span>ChatGPT</span><span>Claude AI</span><span>Midjourney</span><span>ElevenLabs</span><span>GitHub Copilot</span><span>Runway ML</span><span>Grok AI</span><span>Google Flow</span><span>Gemini</span><span>Perplexity</span><span>Leonardo AI</span><span>HeyGen</span><span>Suno AI</span><span>Cursor AI</span><span>Gamma AI</span><span>Zapier AI</span><span>Canva AI</span><span>Adobe Firefly</span><span>Notion AI</span><span>Synthesia</span>
-  </div>
-</div>
+function showLoginScreen(){
+  var ls=document.getElementById('login-screen');
+  ls.style.display='flex';
+  setTimeout(function(){ls.style.opacity='1';},50);
+}
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <button class="topbar-btn" id="langBtn" title="Translate Language" onclick="document.getElementById('gt-popup').classList.toggle('open')">🌐</button>
-  <button class="topbar-btn" id="themeBtn" title="Toggle Theme" onclick="toggleTheme()">🌙</button>
-</div>
+// ===== ON LOGIN SUCCESS =====
+window.__tarmaOnLogin = function(user){
+  // Hide login screen
+  var ls=document.getElementById('login-screen');
+  ls.style.transition='opacity 0.6s ease';
+  ls.style.opacity='0';
+  setTimeout(function(){
+    ls.style.display='none';
+    // Show main site
+    document.getElementById('main-site').style.display='block';
+    initSite();
+    // Show user avatar
+    renderUserArea(user);
+    // Welcome toast
+    showWelcomeToast(user);
+  },600);
+};
 
-<!-- LANGUAGE POPUP -->
-<div id="gt-popup">
-  <div id="gt-box">
-    <button id="gt-close" onclick="document.getElementById('gt-popup').classList.remove('open')">✕</button>
-    <h3>🌐 SELECT LANGUAGE</h3>
-    <input class="lang-search" id="langSearch" placeholder="Search language..." oninput="filterLangs(this.value)">
-    <div class="lang-grid" id="langGrid"></div>
-  </div>
-</div>
+function continueAsGuest(){
+  var ls=document.getElementById('login-screen');
+  ls.style.transition='opacity 0.6s ease';
+  ls.style.opacity='0';
+  setTimeout(function(){
+    ls.style.display='none';
+    document.getElementById('main-site').style.display='block';
+    initSite();
+    renderGuestArea();
+  },600);
+}
 
-<!-- MAIN WEBSITE -->
-<header>⚡ TARMA 4R AI — 1 CLICK AI TOOLS</header>
-<p class="subtitle">224+ AI Tools &bull; One Place &bull; By Jeevan Rawat</p>
+// ===== RENDER USER AREA (avatar + dropdown) =====
+function renderUserArea(user){
+  var area=document.getElementById('userArea');
+  area.innerHTML=`
+    <div class="user-avatar-wrap" onclick="toggleUserDropdown()">
+      <img class="user-avatar" src="${user.photoURL||'https://ui-avatars.com/api/?name='+encodeURIComponent(user.displayName||'U')+'&background=0d1a2e&color=00e5ff'}" alt="avatar">
+      <span class="user-name">${(user.displayName||'User').split(' ')[0]}</span>
+      <span style="font-size:10px;color:var(--subtext)">▾</span>
+      <div class="user-dropdown" id="userDropdown">
+        <div class="user-dropdown-email">${user.email||'Guest User'}</div>
+        <button class="user-dropdown-item" onclick="window.__tarmaSignOut()">🚪 Sign Out</button>
+      </div>
+    </div>
+  `;
+}
 
-<div class="search-wrap"><input id="search" placeholder="Search AI tools..."></div>
-<div class="menu" id="menuBar"></div>
-<div id="count"></div>
-<div class="container" id="tools"></div>
+function renderGuestArea(){
+  var area=document.getElementById('userArea');
+  area.innerHTML=`
+    <button class="topbar-btn" style="width:auto;padding:0 14px;border-radius:50px;font-size:12px;font-family:'Syne',sans-serif;gap:6px;display:flex;align-items:center;"
+      onclick="window.__tarmaSignIn ? window.__tarmaSignIn() : alert('Firebase setup needed')">
+      👤 Sign In
+    </button>
+  `;
+}
 
-<footer>MADE BY <span>JEEVAN RAWAT</span> &nbsp;&bull;&nbsp; 224+ AI TOOLS &nbsp;&bull;&nbsp; TARMA 4R AI</footer>
-<div class="social-bar">
-  <a href="https://youtube.com/@jeevanrawat-26?si=5cQGXq10SI87h7ZZ" target="_blank"
-     style="display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:50px;background:#ff0000;color:#fff;font-family:'Orbitron',monospace;font-size:12px;font-weight:700;letter-spacing:2px;text-decoration:none;box-shadow:0 0 18px rgba(255,0,0,0.4);">
-    ▶ YOUTUBE
-  </a>
-  <a href="https://whatsapp.com/channel/0029Vb75qe13LdQZ9msJFZ09" target="_blank"
-     style="display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:50px;background:#25d366;color:#fff;font-family:'Orbitron',monospace;font-size:12px;font-weight:700;letter-spacing:2px;text-decoration:none;box-shadow:0 0 18px rgba(37,211,102,0.4);">
-    💬 WHATSAPP
-  </a>
-</div>
+function toggleUserDropdown(){
+  var d=document.getElementById('userDropdown');
+  if(d)d.classList.toggle('open');
+}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.user-avatar-wrap')){
+    var d=document.getElementById('userDropdown');
+    if(d)d.classList.remove('open');
+  }
+});
 
-<button id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+function showWelcomeToast(user){
+  var name=(user.displayName||'User').split(' ')[0];
+  var photo=user.photoURL||'https://ui-avatars.com/api/?name='+encodeURIComponent(name)+'&background=0d1a2e&color=00e5ff';
+  var toast=document.createElement('div');
+  toast.className='welcome-toast';
+  toast.innerHTML=`
+    <img src="${photo}" alt="avatar">
+    <div class="welcome-toast-text">
+      <strong>Welcome, ${name}! 👋</strong>
+      TARMA 4R AI mein aapka swagat hai
+    </div>
+  `;
+  document.body.appendChild(toast);
+  setTimeout(function(){
+    toast.style.transition='opacity 0.5s';
+    toast.style.opacity='0';
+    setTimeout(function(){toast.remove();},500);
+  },3500);
+}
 
-<script>
+// ===== MAIN SITE LOGIC =====
 const G='https://www.google.com/s2/favicons?domain=';
 const S='&sz=64';
 const gradients=['#00e5ff,#0088ff','#ff2d78,#ff6b9d','#c084fc,#7c3aed','#4ade80,#16a34a','#fbbf24,#f59e0b','#fb923c,#ef4444','#00e5ff,#c084fc','#4ade80,#00e5ff','#2dd4bf,#0d9488','#a78bfa,#7c3aed'];
@@ -530,19 +868,12 @@ const languages=[
   {n:"Danish",c:"da"},{n:"Finnish",c:"fi"},{n:"Norwegian",c:"no"},{n:"Slovak",c:"sk"},
   {n:"Croatian",c:"hr"},{n:"Serbian",c:"sr"},{n:"Bulgarian",c:"bg"},{n:"Lithuanian",c:"lt"},
   {n:"Latvian",c:"lv"},{n:"Estonian",c:"et"},{n:"Swahili",c:"sw"},{n:"Zulu",c:"zu"},
-  {n:"Xhosa",c:"xh"},{n:"Afrikaans",c:"af"},{n:"Somali",c:"so"},{n:"Amharic",c:"am"},
-  {n:"Hausa",c:"ha"},{n:"Yoruba",c:"yo"},{n:"Igbo",c:"ig"},{n:"Tagalog",c:"tl"},
-  {n:"Khmer",c:"km"},{n:"Lao",c:"lo"},{n:"Burmese",c:"my"},{n:"Nepali",c:"ne"},
-  {n:"Sinhala",c:"si"},{n:"Pashto",c:"ps"},{n:"Kazakh",c:"kk"},{n:"Uzbek",c:"uz"},
-  {n:"Turkmen",c:"tk"},{n:"Mongolian",c:"mn"},{n:"Tibetan",c:"bo"},{n:"Uyghur",c:"ug"},
-  {n:"Kurdish",c:"ku"},{n:"Azerbaijani",c:"az"},{n:"Armenian",c:"hy"},{n:"Georgian",c:"ka"},
-  {n:"Albanian",c:"sq"},{n:"Macedonian",c:"mk"},{n:"Slovenian",c:"sl"},{n:"Bosnian",c:"bs"},
-  {n:"Catalan",c:"ca"},{n:"Galician",c:"gl"},{n:"Basque",c:"eu"},{n:"Quechua",c:"qu"},
-  {n:"Aymara",c:"ay"},{n:"Guarani",c:"gn"},{n:"Maori",c:"mi"},{n:"Samoan",c:"sm"},
-  {n:"Fijian",c:"fj"},{n:"Haitian Creole",c:"ht"},{n:"Malagasy",c:"mg"},{n:"Kinyarwanda",c:"rw"},
-  {n:"Tigrinya",c:"ti"},{n:"Luxembourgish",c:"lb"},{n:"Icelandic",c:"is"},{n:"Irish",c:"ga"},
-  {n:"Scottish Gaelic",c:"gd"},{n:"Welsh",c:"cy"},{n:"Cornish",c:"kw"},{n:"Breton",c:"br"},
-  {n:"Sardinian",c:"sc"},{n:"Frisian",c:"fy"},{n:"Occitan",c:"oc"},{n:"Hmong",c:"hmn"},
+  {n:"Welsh",c:"cy"},{n:"Irish",c:"ga"},{n:"Icelandic",c:"is"},{n:"Tagalog",c:"tl"},
+  {n:"Nepali",c:"ne"},{n:"Sinhala",c:"si"},{n:"Pashto",c:"ps"},{n:"Kazakh",c:"kk"},
+  {n:"Uzbek",c:"uz"},{n:"Mongolian",c:"mn"},{n:"Kurdish",c:"ku"},{n:"Azerbaijani",c:"az"},
+  {n:"Armenian",c:"hy"},{n:"Georgian",c:"ka"},{n:"Albanian",c:"sq"},{n:"Slovenian",c:"sl"},
+  {n:"Catalan",c:"ca"},{n:"Galician",c:"gl"},{n:"Basque",c:"eu"},{n:"Haitian Creole",c:"ht"},
+  {n:"Swahili",c:"sw"},{n:"Amharic",c:"am"},{n:"Hausa",c:"ha"},{n:"Yoruba",c:"yo"},
 ];
 
 function getInitials(name){return name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();}
@@ -622,9 +953,6 @@ function applyFilters(type,q){
   if(q)list=list.filter(x=>x.n.toLowerCase().includes(q));
   show(list);
 }
-document.getElementById("search").addEventListener("input",function(){
-  applyFilters(currentFilter,this.value.toLowerCase());
-});
 
 function toggleTheme(){
   const html=document.documentElement;
@@ -674,8 +1002,13 @@ function buildLangGrid(filter=''){
 function filterLangs(v){buildLangGrid(v);}
 buildLangGrid();
 
-buildMenu();
-show(tools);
+function initSite(){
+  buildMenu();
+  show(tools);
+  document.getElementById("search").addEventListener("input",function(){
+    applyFilters(currentFilter,this.value.toLowerCase());
+  });
+}
 </script>
 </body>
 </html>
